@@ -27,6 +27,8 @@
 #define WHITE 15
 #define YELLOW 6
 
+#define FRAME 60
+
 void gotoxy(int x, int y);
 int move_key(int (*map)[MAP_SIZE_W], int* x, int* y, int level);
 int menu(void);

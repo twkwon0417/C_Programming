@@ -2,29 +2,45 @@
 
 int frame_cnt = 0;  // which frame are we in, In 60frames   // could
 int player_frame = 20;
-int evil_frame = 20;
+int boss_frame = 20;
 
 int boss_y = 20;
 int boss_x = 20;
 
-void move_boss(int* player_y, int* player_x) {
-	if (*player_y > boss_y) {
-		boss_y++;
-	}
-	else {
-		boss_y--;
-	}
+int time_taken = 0;
 
-	if (*player_x > boss_x) {
-		boss_x++;
+void move_boss(int* player_y, int* player_x) {
+	// based on player
+	int diff_y = *player_y - boss_y;
+	int diff_x = *player_x - boss_x;
+
+	int abs_diff_y = abs(diff_y);
+	int abs_diff_x = abs(diff_x);
+	
+	// 차이가 크게 나는 쪽을 먼저 움직일꺼야
+	if (abs_diff_y > abs_diff_x) {
+		if (diff_y > 0) {
+			boss_y++;
+		}
+		else {
+			boss_y--;
+		}
 	}
 	else {
-		boss_x--;
+		if (diff_x > 0) {
+			boss_x++;
+		}
+		else {
+			boss_x--;
+		}
 	}
 }
 
-void draw_boss() {
-	gotoxy(x, y);
+void draw_boss(int* player_y, int* player_x) {
+	printf(" \b");
+	move_boss(player_y, player_x);
+	gotoxy(boss_x, boss_y);
+	printf("B\b");
 }
 
 void gotoxy(int x, int y)
@@ -38,10 +54,16 @@ void gotoxy(int x, int y)
 int move_key(int(*map)[MAP_SIZE_W], int* x, int* y, int level)
 {
 	Sleep(1000 / FRAME);  // 화면은 1초마다 60번 업데이트 된다.
-	printf("     %d \n", frame_cnt);
+	// printf("     %d \n", frame_cnt);
 	frame_cnt++;
 	if (frame_cnt == 61) {   // TODO:not sure if it iterates 60 time and resetted
 		frame_cnt = 1;
+		time_taken++;
+	}
+
+	// how boss moves
+	if (frame_cnt % boss_frame == 0) {
+		draw_boss(y, x);
 	}
 
 	int ch, f, stop;
@@ -55,7 +77,7 @@ int move_key(int(*map)[MAP_SIZE_W], int* x, int* y, int level)
 		if (_kbhit()) {
 			while (_kbhit()) {
 				ch = _getch();
-				printf("\n input %d", ch);
+				// printf("\n input %d", ch);
 				break;
 			}
 			

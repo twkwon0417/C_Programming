@@ -43,6 +43,12 @@ void draw_boss(int* player_y, int* player_x) {
 	printf("B\b");
 }
 
+int check_caught(int* player_y, int* player_x) {	// not yet added to where it supposed to be
+	if (*player_y == boss_y && *player_x == boss_x) {
+		return 0;	// should be defined int meaning game has ended
+	}
+}
+
 void gotoxy(int x, int y)
 {
 	COORD Cur = { x,y };

@@ -4,10 +4,28 @@ int frame_cnt = 0;  // which frame are we in, In 60frames   // could
 int player_frame = 20;
 int evil_frame = 20;
 
-struct opponent {
-	int y;
-	int x;
-} boss;
+int boss_y = 20;
+int boss_x = 20;
+
+void move_boss(int* player_y, int* player_x) {
+	if (*player_y > boss_y) {
+		boss_y++;
+	}
+	else {
+		boss_y--;
+	}
+
+	if (*player_x > boss_x) {
+		boss_x++;
+	}
+	else {
+		boss_x--;
+	}
+}
+
+void draw_boss() {
+	gotoxy(x, y);
+}
 
 void gotoxy(int x, int y)
 {

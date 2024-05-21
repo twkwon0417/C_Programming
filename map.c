@@ -1,5 +1,14 @@
 #include "Game.h"
 
+int frame_cnt = 0;  // which frame are we in, In 60frames   // could
+int player_frame = 20;
+int evil_frame = 20;
+
+struct opponent{
+    int y;
+    int x;
+} boss;
+
 void gotoxy(int x, int y)
 {
 	COORD Cur = { x,y };
@@ -10,101 +19,95 @@ void gotoxy(int x, int y)
 //맵 안에서 움직이기
 int move_key(int(*map)[MAP_SIZE_W], int* x, int* y, int level)
 {
+    Sleep(1000/FRAME);  // 화면은 1초마다 60번 업데이트 된다.
+    frame_cnt++;
+    if(frame_cnt == 61) {   // TODO:not sure if it iterates 60 time and resetted
+        frame_cnt = 1;
+    }
+
 	int ch, f, stop;
 
 	gotoxy(*x, *y);
 	textcolor(YELLOW);
-	printf("◆\b");
+	printf("◆\b");  // where the new point is drawn
 	textcolor(WHITE);
-	if (_kbhit())
-	{
-		ch = _getch();
-		//ESC 눌렀을때 일시정지
-		if (ch == ESC)
-		{
-			stop = pause();
-			//이어하기
-			if (stop == 0)
-				return stop - 1; //return -1
-			//메인메뉴로
-			else if (stop == 1)
-				return stop - 3; //return -2
-			//게임종료
-			else if (stop == 2)
-				return stop - 5; //return -3
-		}
-		if (ch == 224) {
-			ch = _getch();
-			printf(" \b");
-			switch (ch) {
-			case UP:
-				if (map[(*y) - 1][*x] == CLEARSPACE)
-				{
-					(*y)--;
-					return GARBAGE;
-				}
-				else if (map[(*y) - 1][*x] == WALL || map[(*y) - 1][*x] == BLOCK) //벽
-					return GARBAGE;
-				else
-				{
-					(*y)--;
-					f = flag(map, x, y, level);
-					(*y)++;
-					return f;
-				}
-				break;
-			case DOWN:
-				if (map[(*y) + 1][*x] == CLEARSPACE)
-				{
-					(*y)++;
-					return GARBAGE;
-				}
-				else if (map[(*y) + 1][*x] == WALL || map[(*y) + 1][*x] == BLOCK)
-					return GARBAGE;
-				else
-				{
-					(*y)++;
-					f = flag(map, x, y, level);
-					(*y)--;
-					return f;
-				}
-				break;
-			case LEFT:
-				if (map[*y][(*x) - 1] == CLEARSPACE)
-				{
-					(*x)--;
-					return GARBAGE;
-				}
-				else if (map[*y][(*x) - 1] == WALL || map[*y][(*x) - 1] == BLOCK)
-					return GARBAGE;
-				else
-				{
-					(*x)--;
-					f = flag(map, x, y, level);
-					(*x)++;
-					return f;
-				}
-				break;
-			case RIGHT:
-				if (map[*y][(*x) + 1] == CLEARSPACE)
-				{
-					(*x)++;
-					return GARBAGE;
-				}
-				else if (map[*y][(*x) + 1] == WALL || map[*y][(*x) + 1] == BLOCK)
-					return GARBAGE;
-				else
-				{
-					(*x)++;
-					f = flag(map, x, y, level);
-					(*x)--;
-					return f;
-				}
-				break;
-			}
-		}
-	}
 
+    if(frame_cnt % player_frame == 0) {
+        if (_kbhit()) {
+            ch = _getch();
+            //ESC 눌렀을때 일시정지
+            if (ch == ESC) {
+                stop = pause();
+                //이어하기
+                if (stop == 0)
+                    return stop - 1; //return -1
+                    //메인메뉴로
+                else if (stop == 1)
+                    return stop - 3; //return -2
+                    //게임종료
+                else if (stop == 2)
+                    return stop - 5; //return -3
+            }
+            if (ch == 224) {
+                ch = _getch();
+                printf(" \b");
+                switch (ch) {
+                    case UP:
+                        if (map[(*y) - 1][*x] == CLEARSPACE) {
+                            (*y)--;
+                            return GARBAGE;
+                        } else if (map[(*y) - 1][*x] == WALL || map[(*y) - 1][*x] == BLOCK) //벽
+                            return GARBAGE;
+                        else {
+                            (*y)--;
+                            f = flag(map, x, y, level);
+                            (*y)++;
+                            return f;
+                        }
+                        break;
+                    case DOWN:
+                        if (map[(*y) + 1][*x] == CLEARSPACE) {
+                            (*y)++;
+                            return GARBAGE;
+                        } else if (map[(*y) + 1][*x] == WALL || map[(*y) + 1][*x] == BLOCK)
+                            return GARBAGE;
+                        else {
+                            (*y)++;
+                            f = flag(map, x, y, level);
+                            (*y)--;
+                            return f;
+                        }
+                        break;
+                    case LEFT:
+                        if (map[*y][(*x) - 1] == CLEARSPACE) {
+                            (*x)--;
+                            return GARBAGE;
+                        } else if (map[*y][(*x) - 1] == WALL || map[*y][(*x) - 1] == BLOCK)
+                            return GARBAGE;
+                        else {
+                            (*x)--;
+                            f = flag(map, x, y, level);
+                            (*x)++;
+                            return f;
+                        }
+                        break;
+                    case RIGHT:
+                        if (map[*y][(*x) + 1] == CLEARSPACE) {
+                            (*x)++;
+                            return GARBAGE;
+                        } else if (map[*y][(*x) + 1] == WALL || map[*y][(*x) + 1] == BLOCK)
+                            return GARBAGE;
+                        else {
+                            (*x)++;
+                            f = flag(map, x, y, level);
+                            (*x)--;
+                            return f;
+                        }
+                        break;
+                }
+            }
+        }
+    }
 
 }
 

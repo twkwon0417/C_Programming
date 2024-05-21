@@ -4,9 +4,9 @@ int frame_cnt = 0;  // which frame are we in, In 60frames   // could
 int player_frame = 20;
 int evil_frame = 20;
 
-struct opponent{
-    int y;
-    int x;
+struct opponent {
+	int y;
+	int x;
 } boss;
 
 void gotoxy(int x, int y)
@@ -19,11 +19,12 @@ void gotoxy(int x, int y)
 //맵 안에서 움직이기
 int move_key(int(*map)[MAP_SIZE_W], int* x, int* y, int level)
 {
-    Sleep(1000/FRAME);  // 화면은 1초마다 60번 업데이트 된다.
-    frame_cnt++;
-    if(frame_cnt == 61) {   // TODO:not sure if it iterates 60 time and resetted
-        frame_cnt = 1;
-    }
+	Sleep(1000 / FRAME);  // 화면은 1초마다 60번 업데이트 된다.
+	printf("     %d \n", frame_cnt);
+	frame_cnt++;
+	if (frame_cnt == 61) {   // TODO:not sure if it iterates 60 time and resetted
+		frame_cnt = 1;
+	}
 
 	int ch, f, stop;
 
@@ -32,82 +33,91 @@ int move_key(int(*map)[MAP_SIZE_W], int* x, int* y, int level)
 	printf("◆\b");  // where the new point is drawn
 	textcolor(WHITE);
 
-    if(frame_cnt % player_frame == 0) {
-        if (_kbhit()) {
-            ch = _getch();
-            //ESC 눌렀을때 일시정지
-            if (ch == ESC) {
-                stop = pause();
-                //이어하기
-                if (stop == 0)
-                    return stop - 1; //return -1
-                    //메인메뉴로
-                else if (stop == 1)
-                    return stop - 3; //return -2
-                    //게임종료
-                else if (stop == 2)
-                    return stop - 5; //return -3
-            }
-            if (ch == 224) {
-                ch = _getch();
-                printf(" \b");
-                switch (ch) {
-                    case UP:
-                        if (map[(*y) - 1][*x] == CLEARSPACE) {
-                            (*y)--;
-                            return GARBAGE;
-                        } else if (map[(*y) - 1][*x] == WALL || map[(*y) - 1][*x] == BLOCK) //벽
-                            return GARBAGE;
-                        else {
-                            (*y)--;
-                            f = flag(map, x, y, level);
-                            (*y)++;
-                            return f;
-                        }
-                        break;
-                    case DOWN:
-                        if (map[(*y) + 1][*x] == CLEARSPACE) {
-                            (*y)++;
-                            return GARBAGE;
-                        } else if (map[(*y) + 1][*x] == WALL || map[(*y) + 1][*x] == BLOCK)
-                            return GARBAGE;
-                        else {
-                            (*y)++;
-                            f = flag(map, x, y, level);
-                            (*y)--;
-                            return f;
-                        }
-                        break;
-                    case LEFT:
-                        if (map[*y][(*x) - 1] == CLEARSPACE) {
-                            (*x)--;
-                            return GARBAGE;
-                        } else if (map[*y][(*x) - 1] == WALL || map[*y][(*x) - 1] == BLOCK)
-                            return GARBAGE;
-                        else {
-                            (*x)--;
-                            f = flag(map, x, y, level);
-                            (*x)++;
-                            return f;
-                        }
-                        break;
-                    case RIGHT:
-                        if (map[*y][(*x) + 1] == CLEARSPACE) {
-                            (*x)++;
-                            return GARBAGE;
-                        } else if (map[*y][(*x) + 1] == WALL || map[*y][(*x) + 1] == BLOCK)
-                            return GARBAGE;
-                        else {
-                            (*x)++;
-                            f = flag(map, x, y, level);
-                            (*x)--;
-                            return f;
-                        }
-                        break;
-                }
-            }
-        }
-    }
+	if (frame_cnt % player_frame == 0) {
+		if (_kbhit()) {
+			while (_kbhit()) {
+				ch = _getch();
+				printf("\n input %d", ch);
+				break;
+			}
+			
+			//ESC 눌렀을때 일시정지
+			if (ch == ESC) {
+				stop = pause();
+				//이어하기
+				if (stop == 0)
+					return stop - 1; //return -1
+				//메인메뉴로
+				else if (stop == 1)
+					return stop - 3; //return -2
+				//게임종료
+				else if (stop == 2)
+					return stop - 5; //return -3
+			}
+			if (ch == 224) {
+			ch = _getch();
+				printf(" \b");
+				switch (ch) {
+				case UP:
+					if (map[(*y) - 1][*x] == CLEARSPACE) {
+						(*y)--;
+						return GARBAGE;
+					}
+					else if (map[(*y) - 1][*x] == WALL || map[(*y) - 1][*x] == BLOCK) //벽
+						return GARBAGE;
+					else {
+						(*y)--;
+						f = flag(map, x, y, level);
+						(*y)++;
+						return f;
+					}
+					break;
+				case DOWN:
+					if (map[(*y) + 1][*x] == CLEARSPACE) {
+						(*y)++;
+						return GARBAGE;
+					}
+					else if (map[(*y) + 1][*x] == WALL || map[(*y) + 1][*x] == BLOCK)
+						return GARBAGE;
+					else {
+						(*y)++;
+						f = flag(map, x, y, level);
+						(*y)--;
+						return f;
+					}
+					break;
+				case LEFT:
+					if (map[*y][(*x) - 1] == CLEARSPACE) {
+						(*x)--;
+						return GARBAGE;
+					}
+					else if (map[*y][(*x) - 1] == WALL || map[*y][(*x) - 1] == BLOCK)
+						return GARBAGE;
+					else {
+						(*x)--;
+						f = flag(map, x, y, level);
+						(*x)++;
+						return f;
+					}
+					break;
+				case RIGHT:
+					if (map[*y][(*x) + 1] == CLEARSPACE) {
+						(*x)++;
+						return GARBAGE;
+					}
+					else if (map[*y][(*x) + 1] == WALL || map[*y][(*x) + 1] == BLOCK)
+						return GARBAGE;
+					else {
+						(*x)++;
+						f = flag(map, x, y, level);
+						(*x)--;
+						return f;
+					}
+					break;
+				}
+			}
+		}
+	}
 
 }
 
@@ -317,7 +327,7 @@ int start_screen(void)
 int game_start(int(*map)[MAP_SIZE_W], int start, int* x, int* y)
 {
 	int item, level, ch;
-	
+
 	if (start == 0)
 	{
 		level = menu();
@@ -349,11 +359,11 @@ int game_start(int(*map)[MAP_SIZE_W], int start, int* x, int* y)
 			//return -3: 게임 종료
 			else if (item == -3)
 			{
-				return 0; 
+				return 0;
 			}
 
 
-			if (item == 1)
+			if (item == -99)	// code that allow not to go to next level
 			{
 				if (level == 2)
 				{
@@ -361,7 +371,7 @@ int game_start(int(*map)[MAP_SIZE_W], int start, int* x, int* y)
 					Sleep(2000);
 					return 1; //반환이 1이면 시작화면으로
 				}
-				else if(level == 0 || level == 1)
+				else if (level == 0 || level == 1)
 				{
 					printf("다음 레벨로");
 					Sleep(2000);

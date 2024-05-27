@@ -4,94 +4,156 @@ void textcolor(int colorNum) {
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), colorNum);
 }
 
-int flag(int(*map)[MAP_SIZE_W], int* x, int* y, int level)
+int flag(int(*map)[MAP_SIZE_W], int* x, int* y, int level, int* money)
 {
+	int check;
 	system("cls");
 
 	if (map[*y][*x] == 0)
 	{
-		gotoxy(0, 7);
-		printf("              ■■■■■■    ■■   ■■■■■■■■■■       ■■■■    ■■     ■■■■■■■■  \n");
-		printf("              ■    ■    ■■           ■■     ■■■■■■■■  ■■     ■         \n");
-		printf("              ■    ■    ■■           ■■      ■■■■■■   ■■     ■         \n");
-		printf("              ■■■■■■    ■■           ■■      ■    ■   ■■     ■■■■■■■■  \n");
-		printf("            ■■■■■■■■■■  ■■           ■       ■■■■■■   ■■               \n");
-		printf("                 ■ ■■■■■■■  ■■■■■■■■■■■■       ■■     ■■              \n");
-		printf("                 ■      ■■                  ■■■■■■■■■■■■   ■■■■■■■■■■■■\n");
-		printf("               ■■■■■■■■■      ■      ■■                                \n");
-		printf("                      ■■      ■      ■■      ■■■■■■■■■■■    ■■■■■■■■■  \n");
-		printf("               ■■■■■■■■■      ■■■■■■■■■               ■             ■  \n");
-		printf("               ■■             ■      ■■               ■             ■  \n");
-		printf("               ■■■■■■■■■■     ■■■■■■■■■               ■             ■  ");
+		gotoxy(10, 7);
+		printf("  ######    ##   ##########       ####    ##     ########  ");
+		gotoxy(10, 8);
+		printf("  #    #    ##           ##     ########  ##     #         ");
+		gotoxy(10, 9);
+		printf("  #    #    ##           ##      ######   ##     #         ");
+		gotoxy(10, 10);
+		printf("  ######    ##           ##      #    #   ##     ########  ");
+		gotoxy(10, 11);
+		printf("##########  ##           #       ######   ##               ");
+		gotoxy(10, 12);
+		printf("      # #######  ############       ##     ##              ");
+		gotoxy(10, 13);
+		printf("     #      ##                  ############   ############");
+		gotoxy(10, 14);
+		printf("   #########      #      ##                                ");
+		gotoxy(10, 15);
+		printf("          ##      #      ##      ###########    #########  ");
+		gotoxy(10, 16);
+		printf("   #########      #########               #             #  ");
+		gotoxy(10, 17);
+		printf("   ##             #      ##               #             #  ");
+		gotoxy(10, 18);
+		printf("   ##########     #########               #             #  ");
 		Sleep(2000);
 		system("cls");
-		map[*y][*x] = -2;
+		map[*y][*x] = CLEARSPACE;
+
+		//인터넷 뱅킹으로 돈 들어오는 아스키 아트 함수로 만들어 넣기
+
 		return 1; //월급 획득 성공
 	}
 	else
 	{
-		switch (map[*y][*x] % 4 + 1)
+		switch (map[*y][*x] % 5 + 1)
 		{
 		case 1:
-			printf("깃발 위치");
-			gotoxy(0, 7);
+			printf("월급 감소");
+			*money = *money - 10;
 			Sleep(2000);
 			system("cls");
-			
 			break;
 		case 2:
-			gotoxy(0, 7);
-			printf("                        ■■         ■         ■\n");
-			printf("                        ■■         ■         ■\n");
-			printf("                       ■■■■        ■         ■\n");
-			printf("                    ■■■    ■■■     ■         ■\n");
-			printf("                   ■■   ■■   ■■    ■         ■\n");
-			printf("                        ■■         ■■■■■■■■  ■\n");
-			printf("                   ■■■■■■■■■■■■              ■\n");
-			printf("                     ■              ■■■■■■■■■■\n");
-			printf("                     ■■             ■        ■\n");
-			printf("                     ■■             ■        ■\n");
-			printf("                     ■■             ■        ■\n");
-			printf("                     ■■■■■■■■■      ■■■■■■■■■■");
+			printf("월급 증가");
+			*money = *money + 10;
 			Sleep(2000);
 			system("cls");
-			
 			break;
 		case 3:
-			gotoxy(0, 7);
-			printf("               ■■■■■■■    ■  ■   ■■    ■■  ■  ■\n");
-			printf("               ■■         ■  ■   ■■    ■■  ■  ■\n");
-			printf("               ■■         ■  ■   ■■    ■■  ■  ■\n");
-			printf("               ■■■■■■     ■■■■   ■■■■■■■■  ■  ■\n");
-			printf("               ■■         ■  ■   ■■    ■■  ■■■■\n");
-			printf("               ■■         ■  ■   ■■    ■■  ■  ■\n");
-			printf("               ■■■■■■■■   ■  ■   ■■    ■■  ■  ■\n");
-			printf("                                 ■■■■■■■■  ■  ■\n");
-			printf("                  ■■■■■■■■■■■              ■  ■\n");
-			printf("                           ■■              ■  ■\n");
-			printf("                           ■■                 ■\n");
-			printf("                           ■■                 ");
+			gotoxy(10, 7);
+			printf("     ##         #         #");
+			gotoxy(10, 8);
+			printf("     ##         #         #");
+			gotoxy(10, 9);
+			printf("    ####        #         #");
+			gotoxy(10, 10);
+			printf(" ###    ###     #         #");
+			gotoxy(10, 11);
+			printf("##   ##   ##    #         #");
+			gotoxy(10, 12);
+			printf("     ##         ########  #");
+			gotoxy(10, 13);
+			printf("############              #");
+			gotoxy(10, 14);
+			printf("  #              ##########");
+			gotoxy(10, 15);
+			printf("  ##             #        #");
+			gotoxy(10, 16);
+			printf("  ##             #        #");
+			gotoxy(10, 17);
+			printf("  ##             #        #");
+			gotoxy(10, 18);
+			printf("  #########      ##########");
 			Sleep(2000);
 			system("cls");
 			
 			break;
 		case 4:
-			gotoxy(0, 7);
-			printf("            ■■■■■■■■    ■■■■■■■■■     ■■■■■■■  ■  ■■■■■■   ■\n");
-			printf("            ■      ■      ■   ■          ■     ■  ■■■■■■   ■\n");
-			printf("            ■      ■      ■   ■          ■     ■       ■   ■\n");
-			printf("            ■■■■■■■■    ■■■■■■■■■       ■■■ ■■■■       ■   ■\n");
-			printf("                                       ■■■■■   ■  ■■■■■■   ■\n");
-			printf("          ■■■■■■■■■■■■■■■■■■■■■■■■    ■■■ ■■■  ■  ■        ■\n");
-			printf("               ■■           ■        ■■     ■  ■  ■        ■\n");
-			printf("            ■■■■■■■■        ■            ■■■■■■   ■        ■\n");
-			printf("                   ■    ■■■■■■■■■       ■■■  ■■■  ■■■■■■■■ ■\n");
-			printf("            ■■■■■■■■    ■■     ■■       ■      ■           ■\n");
-			printf("            ■           ■■     ■■       ■■    ■■           ■\n");
-			printf("            ■■■■■■■■■   ■■■■■■■■■        ■■■■■■■           ■");
+			gotoxy(10, 7);
+			printf("#######    #  #   ##    ##  #  #");
+			gotoxy(10, 8);
+			printf("##         #  #   ##    ##  #  #");
+			gotoxy(10, 9);
+			printf("##         #  #   ##    ##  #  #");
+			gotoxy(10, 10);
+			printf("######     ####   ########  #  #");
+			gotoxy(10, 11);
+			printf("##         #  #   ##    ##  ####");
+			gotoxy(10, 12);
+			printf("##         #  #   ##    ##  #  #");
+			gotoxy(10, 13);
+			printf("########   #  #   ##    ##  #  #");
+			gotoxy(10, 14);
+			printf("                  ########  #  #");
+			gotoxy(10, 15);
+			printf("   ###########              #  #");
+			gotoxy(10, 16);
+			printf("            ##              #  #");
+			gotoxy(10, 17);
+			printf("            ##                 #");
+			gotoxy(10, 18);
+			printf("            ##                 ");
 			Sleep(2000);
 			system("cls");
-			article(level);
+			check = delivery();
+			if (check == 1)
+				*money = *money + 10;
+			else
+				*money = *money - 10;
+			
+			break;
+		case 5:
+			gotoxy(10, 7);
+			printf("  ########    #########     ######  #  #######   #");
+			gotoxy(10, 8);
+			printf("  #      #      #   #          #     #  ######   #");
+			gotoxy(10, 9);
+			printf("  #      #      #   #          #     #       #   #");
+			gotoxy(10, 10);
+			printf("  ########    #########       ### ####       #   #");
+			gotoxy(10, 11);
+			printf("                             #####   #  ######   #");
+			gotoxy(10, 12);
+			printf("########################    ### ###  #  #        #");
+			gotoxy(10, 13);
+			printf("     ■■           #        ##     #  #  #        #");
+			gotoxy(10, 14);
+			printf("  ########        #            ######   #        #");
+			gotoxy(10, 15);
+			printf("         #    #########       ###  ###  ######## #");
+			gotoxy(10, 16);
+			printf("  ########    ##     ##       #      #           #");
+			gotoxy(10, 17);
+			printf("  #           ##     ##       ##    ##           #");
+			gotoxy(10, 18);
+			printf("  #########   #########        #######           #");
+			Sleep(2000);
+			system("cls");
+			check = article(level);
+			if (check == 1)
+				*money = *money + 10;
+			else
+				*money = *money - 10;
 			break;
 		}
 		system("cls");
@@ -100,8 +162,8 @@ int flag(int(*map)[MAP_SIZE_W], int* x, int* y, int level)
 		return 0; //월급 획득 실패
 	}
 }
-//return 값 수정 -> 1이면 성공, 0이면 실패
-void article(int level)
+//return 값  -> 1이면 성공, 0이면 실패
+int article(int level)
 {
 	int mini_game_map[MAP_SIZE_H][MAP_SIZE_W];
 	//미니게임 맵 생성
@@ -331,14 +393,220 @@ void article(int level)
 	if (goal <= score)
 	{
 		system("cls");
-		printf("성공");
+		gotoxy(10, 7);
+		printf("   ■■     ■   ■■■■■■■■■ ");
+		gotoxy(10, 8);
+		printf("   ■■     ■          ■■ ");
+		gotoxy(10, 9);
+		printf("   ■■  ■■■■      ■   ■■ ");
+		gotoxy(10, 10);
+		printf("   ■■■    ■      ■   ■■ ");
+		gotoxy(10, 11);
+		printf("  ■■■■■   ■      ■   ■  ");
+		gotoxy(10, 12);
+		printf("■■■  ■■■  ■ ■■■■■■■■■■■■");
+		gotoxy(10, 13);
+		printf("■■        ■             ");
+		gotoxy(10, 14);
+		printf("    ■■■■■■     ■■■■■■   ");
+		gotoxy(10, 15);
+		printf("   ■■■  ■■■   ■■■■■■■■  ");
+		gotoxy(10, 16);
+		printf("   ■      ■   ■■     ■■ ");
+		gotoxy(10, 17);
+		printf("   ■■    ■■   ■■    ■■  ");
+		gotoxy(10, 18);
+		printf("   ■■■■■■■■    ■■■■■■■  ");
 		Sleep(1000);
+		return 1;
 	}
 	//목표 실패
 	else
 	{
 		system("cls");
-		printf("실패");
+		gotoxy(10, 7);
+		printf("    ■     ■          ■  ■");
+		gotoxy(10, 8);
+		printf("    ■     ■  ■■■■■■■ ■  ■");
+		gotoxy(10, 9);
+		printf("   ■■■    ■    ■  ■  ■  ■");
+		gotoxy(10, 10);
+		printf("  ■■■■■   ■    ■  ■  ■  ■");
+		gotoxy(10, 11);
+		printf(" ■■  ■■■  ■    ■  ■  ■■■■");
+		gotoxy(10, 12);
+		printf("■■     ■  ■    ■  ■  ■  ■");
+		gotoxy(10, 13);
+		printf("  ■■■■■■■■■    ■  ■  ■  ■");
+		gotoxy(10, 14);
+		printf("          ■   ■■■■■■■■  ■");
+		gotoxy(10, 15);
+		printf("          ■  ■■■■■■■■■  ■");
+		gotoxy(10, 16);
+		printf("   ■■■■■■■■          ■  ■");
+		gotoxy(10, 17);
+		printf("   ■                 ■  ■");
+		gotoxy(10, 18);
+		printf("   ■■■■■■■■          ■  ■");
 		Sleep(1000);
+		return 0;
+	}
+}
+
+int delivery(void)
+{
+	int g_map[MAP_SIZE_H][MAP_SIZE_W] = { 0 };
+	int num, numX, numY;  //택배 위치
+	int playerX = 25, playerY = 26; //사용자 위치
+	int score = 0;  // 점 기록
+	int targetScore = 6; //목표 점
+	int timer = TIMER;
+
+	init();
+	printf("택배 정리\n");
+	printf("규정한 시간에 택배를 받아야 합니다.");
+	Sleep(3000);
+	gameMap(g_map);
+
+	while (score < targetScore)
+	{
+		setNumber(g_map, &num, &numX, &numY);
+
+		DWORD start_time = GetTickCount();  //시간 기록
+		DWORD current_time;
+		drawMap(g_map, score);
+
+		//drawMap(g_map, r_time, score); 
+
+		while (GetTickCount() - start_time < timer)  //출력하는 택배 유지하는 시간
+		{
+			current_time = GetTickCount();
+			int r_time = timer - (current_time - start_time);
+			if (r_time % 1000 == 0)
+			{
+				gotoxy(29, MAP_SIZE_H);
+				printf("                    "); // Clear previous time display
+				gotoxy(29, MAP_SIZE_H);
+				printf("/남은 시간: %2d s", r_time / 1000);
+			}
+
+			moveKey(g_map, &playerX, &playerY, &score, num);
+			gotoxy(20, MAP_SIZE_H);
+			printf("Score: %2d\n", score);
+
+			if (playerX == numX && playerY == numY)
+			{
+				score++;
+				g_map[numY][numX] = -2;  //찾았은 택배를 지우기
+
+				break;
+			}
+		}
+
+		if (GetTickCount() - start_time >= timer) {
+			break;
+		}
+
+		g_map[numY][numX] = -2;  // 찾았은 택배를 지우기
+
+		if (score % 2 == 0 && score != 0)
+		{
+			timer -= 2000;
+		}
+	}
+
+	system("cls");
+	if (score == targetScore)
+	{
+		printf("택배 정리 완성.");
+		Sleep(1000);
+		return 1;
+	}
+	else
+	{
+		printf("택배 정리 실패.");
+		Sleep(1000);
+		return 0;
+	}
+
+}
+
+void gameMap(int(*map)[MAP_SIZE_W])
+{
+	for (int i = 0; i < MAP_SIZE_H; i++)
+	{
+		for (int j = 0; j < MAP_SIZE_W; j++)
+		{
+			if (i == 0 || j == MAP_SIZE_W - 1 || j == 0 || i == MAP_SIZE_H - 1)
+				map[i][j] = -1;
+			else
+				map[i][j] = -2;
+		}
+	}
+}
+
+void drawMap(int(*map)[MAP_SIZE_W], int remaining_time)
+{
+	gotoxy(0, 0);  // MAP위치 초시화
+	for (int i = 0; i < MAP_SIZE_H; i++)
+	{
+		for (int j = 0; j < MAP_SIZE_W; j++)
+		{
+			if (map[i][j] == -2)
+				printf(" ");
+			else if (map[i][j] == -1)
+				printf("#");
+			else
+				printf("□"); //택배 출력
+		}
+		printf("\n");
+	}
+}
+
+void setNumber(int(*map)[MAP_SIZE_W], int* num, int* x, int* y)
+{
+	*num = rand() % 9;  //택배 위치 설정(원래 숫자 출력)
+	*x = rand() % (MAP_SIZE_W - 2) + 1;
+	*y = rand() % (MAP_SIZE_H - 2) + 1;
+
+	map[*y][*x] = *num;
+}
+
+void moveKey(int(*map)[MAP_SIZE_W], int* x, int* y)
+{
+	int ch;
+
+	gotoxy(*x, *y);
+	printf("◆\b");
+
+	if (_kbhit())
+	{
+		ch = _getch();
+		if (ch == 224)
+		{
+			ch = _getch();
+			printf(" \b");
+			switch (ch)
+			{
+			case UP:
+				if (*y > 1 && map[*y - 1][*x] != -1)
+					(*y)--;
+				break;
+			case DOWN:
+				if (*y < MAP_SIZE_H - 2 && map[*y + 1][*x] != -1)
+					(*y)++;
+				break;
+			case LEFT:
+				if (*x > 1 && map[*y][*x - 1] != -1)
+					(*x)--;
+				break;
+			case RIGHT:
+				if (*x < MAP_SIZE_W - 2 && map[*y][*x + 1] != -1)
+					(*x)++;
+				break;
+			default:
+				break;
+			}
+		}
 	}
 }

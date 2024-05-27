@@ -1,7 +1,5 @@
 #include "Game.h"
 
-//글씨 색 바꾸기
-
 void init(void)
 {
 	//마우스 커서 숨김
@@ -23,11 +21,18 @@ int main(void)
 	//시드값 변경
 	srand(time(NULL));
 
+	//맨 처음 게임을 시작할때 스토리 넣기 (skip 되도록) -> 계약서에 이름 넣기 구현
+
 	do {
 		x = 1, y = 1;
 		start = start_screen();
 		s_c = game_start(map, start, &x, &y);
+		if (s_c == 2)
+		{
+			s_c = game_start(map, 0, &x, &y);
+		}
 	} while (s_c);
 	
+	printf("\n\n\n");
 	return 0;
 }

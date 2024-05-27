@@ -1,7 +1,6 @@
 #include "Game.h"
 
 int frame_cnt = 0;  // which frame are we in, In 60frames   // could
-int player_frame = 20;
 int boss_frame = 20;
 
 int boss_y = 20;
@@ -9,36 +8,54 @@ int boss_x = 20;
 
 int time_taken = 0;
 
-void move_boss(int* player_y, int* player_x) {
+void move_boss(int (*map)[MAP_SIZE_W], int* player_y, int* player_x) {
 	// based on player
 	int diff_y = *player_y - boss_y;
 	int diff_x = *player_x - boss_x;
 
 	int abs_diff_y = abs(diff_y);
 	int abs_diff_x = abs(diff_x);
-	
+
 	// 차이가 크게 나는 쪽을 먼저 움직일꺼야
-	if (abs_diff_y > abs_diff_x) {
-		if (diff_y > 0) {
-			boss_y++;
+	if (map[boss_y + 1][boss_x] == -2 && map[boss_y][boss_x + 1] == -2 && map[boss_y - 1][boss_x] == -2 && map[boss_y][boss_x - 1] == -2)
+	{
+		if (abs_diff_y > abs_diff_x) {
+			if (diff_y > 0) {
+				boss_y++;
+			}
+			else {
+				boss_y--;
+			}
 		}
 		else {
-			boss_y--;
+			if (diff_x > 0) {
+				boss_x++;
+			}
+			else {
+				boss_x--;
+			}
 		}
 	}
-	else {
-		if (diff_x > 0) {
-			boss_x++;
-		}
-		else {
-			boss_x--;
-		}
+	if(map[boss_y + 1][boss_x] == -2)
+	{
+		boss_y++;
+	}
+	if (map[boss_y][boss_x + 1] == -2)
+	{
+		boss_x++;
+	}
+	if (map[boss_y - 1][boss_x] == -2)
+	{
+		boss_y--;
+	}
+	if (map[boss_y][boss_x - 1] == -2)
+	{
+		boss_x--;
 	}
 }
-
-void draw_boss(int* player_y, int* player_x) {
+void draw_boss(int(*map)[MAP_SIZE_W], int* player_y, int* player_x) {
 	printf(" \b");
-	move_boss(player_y, player_x);
+	move_boss(map, player_y, player_x);
 	gotoxy(boss_x, boss_y);
 	printf("B\b");
 }
@@ -57,124 +74,127 @@ void gotoxy(int x, int y)
 }
 
 //맵 안에서 움직이기
-int move_key(int(*map)[MAP_SIZE_W], int* x, int* y, int level)
+int move_key(int(*map)[MAP_SIZE_W], int* x, int* y, int level, int* money)
 {
 	Sleep(1000 / FRAME);  // 화면은 1초마다 60번 업데이트 된다.
-	// printf("     %d \n", frame_cnt);
+	
 	frame_cnt++;
 	if (frame_cnt == 61) {   // TODO:not sure if it iterates 60 time and resetted
 		frame_cnt = 1;
 		time_taken++;
 	}
-
 	// how boss moves
 	if (frame_cnt % boss_frame == 0) {
-		draw_boss(y, x);
+		gotoxy(boss_x, boss_y);
+		draw_boss(map, y, x);
 	}
 
 	int ch, f, stop;
 
 	gotoxy(*x, *y);
 	textcolor(YELLOW);
-	printf("◆\b");  // where the new point is drawn
+	printf("◆\b");
 	textcolor(WHITE);
-
-	if (frame_cnt % player_frame == 0) {
-		if (_kbhit()) {
-			while (_kbhit()) {
-				ch = _getch();
-				// printf("\n input %d", ch);
-				break;
-			}
-			
-			//ESC 눌렀을때 일시정지
-			if (ch == ESC) {
-				stop = pause();
-				//이어하기
-				if (stop == 0)
-					return stop - 1; //return -1
-				//메인메뉴로
-				else if (stop == 1)
-					return stop - 3; //return -2
-				//게임종료
-				else if (stop == 2)
-					return stop - 5; //return -3
-			}
-			if (ch == 224) {
+	if (_kbhit())
+	{
+		ch = _getch();
+		//ESC 눌렀을때 일시정지
+		if (ch == ESC)
+		{
+			stop = pause();
+			//이어하기
+			if (stop == 0)
+				return stop - 1; //return -1
+			//메인메뉴로
+			else if (stop == 1)
+				return stop - 3; //return -2
+			//게임종료
+			else if (stop == 2)
+				return stop - 5; //return -3
+		}
+		if (ch == 224) {
 			ch = _getch();
-				printf(" \b");
-				switch (ch) {
-				case UP:
-					if (map[(*y) - 1][*x] == CLEARSPACE) {
-						(*y)--;
-						return GARBAGE;
-					}
-					else if (map[(*y) - 1][*x] == WALL || map[(*y) - 1][*x] == BLOCK) //벽
-						return GARBAGE;
-					else {
-						(*y)--;
-						f = flag(map, x, y, level);
-						(*y)++;
-						return f;
-					}
-					break;
-				case DOWN:
-					if (map[(*y) + 1][*x] == CLEARSPACE) {
-						(*y)++;
-						return GARBAGE;
-					}
-					else if (map[(*y) + 1][*x] == WALL || map[(*y) + 1][*x] == BLOCK)
-						return GARBAGE;
-					else {
-						(*y)++;
-						f = flag(map, x, y, level);
-						(*y)--;
-						return f;
-					}
-					break;
-				case LEFT:
-					if (map[*y][(*x) - 1] == CLEARSPACE) {
-						(*x)--;
-						return GARBAGE;
-					}
-					else if (map[*y][(*x) - 1] == WALL || map[*y][(*x) - 1] == BLOCK)
-						return GARBAGE;
-					else {
-						(*x)--;
-						f = flag(map, x, y, level);
-						(*x)++;
-						return f;
-					}
-					break;
-				case RIGHT:
-					if (map[*y][(*x) + 1] == CLEARSPACE) {
-						(*x)++;
-						return GARBAGE;
-					}
-					else if (map[*y][(*x) + 1] == WALL || map[*y][(*x) + 1] == BLOCK)
-						return GARBAGE;
-					else {
-						(*x)++;
-						f = flag(map, x, y, level);
-						(*x)--;
-						return f;
-					}
-					break;
+			printf(" \b");
+			switch (ch) {
+			case UP:
+				if (map[(*y) - 1][*x] == CLEARSPACE)
+				{
+					(*y)--;
+					return GARBAGE;
 				}
+				else if (map[(*y) - 1][*x] == WALL || map[(*y) - 1][*x] == BLOCK) //벽
+					return GARBAGE;
+				else
+				{
+					(*y)--;
+					f = flag(map, x, y, level, money);
+					(*y)++;
+					return f;
+				}
+				break;
+			case DOWN:
+				if (map[(*y) + 1][*x] == CLEARSPACE)
+				{
+					(*y)++;
+					return GARBAGE;
+				}
+				else if (map[(*y) + 1][*x] == WALL || map[(*y) + 1][*x] == BLOCK)
+					return GARBAGE;
+				else
+				{
+					(*y)++;
+					f = flag(map, x, y, level, money);
+					(*y)--;
+					return f;
+				}
+				break;
+			case LEFT:
+				if (map[*y][(*x) - 1] == CLEARSPACE)
+				{
+					(*x)--;
+					return GARBAGE;
+				}
+				else if (map[*y][(*x) - 1] == WALL || map[*y][(*x) - 1] == BLOCK)
+					return GARBAGE;
+				else
+				{
+					(*x)--;
+					f = flag(map, x, y, level, money);
+					(*x)++;
+					return f;
+				}
+				break;
+			case RIGHT:
+				if (map[*y][(*x) + 1] == CLEARSPACE)
+				{
+					(*x)++;
+					return GARBAGE;
+				}
+				else if (map[*y][(*x) + 1] == WALL || map[*y][(*x) + 1] == BLOCK)
+					return GARBAGE;
+				else
+				{
+					(*x)++;
+					f = flag(map, x, y, level, money);
+					(*x)--;
+					return f;
+				}
+				break;
 			}
 		}
 	}
+
 
 }
 
 //맵 선택
 int menu(void)
 {
-	int x = 24;
-	int y = 6;
+	int x = M_W;
+	int y = M_H;
 	system("cls");
-	printf("\n\n");
-	printf("                      [맵 선택]\n\n");
+	gotoxy(0, y - 8);
+	printf("                      [난이도 선택]\n\n");
 
 	gotoxy(x - 2, y);
 	printf("> EASY ");
@@ -188,14 +208,14 @@ int menu(void)
 	do {
 		int ch = _getch();
 		if (ch == ENTER || ch == SPACE)
-			return y - 6;
+			return y - M_H;
 		if (ch == 224) {
 			ch = _getch();
 			printf(" \b");
 			switch (ch) {
-				//y좌표는 최대 6에서 9
+				//y좌표는 최대 M_H에서 M_H+3
 			case UP: //키보드 UP
-				if (y > 6) {
+				if (y > M_H) {
 					gotoxy(x - 2, y);
 					printf(" ");
 					gotoxy(x - 2, --y);
@@ -203,7 +223,7 @@ int menu(void)
 				}
 				break;
 			case DOWN: //키보드 DOWN
-				if (y < 9) {
+				if (y < M_H + 3) {
 					gotoxy(x - 2, y);
 					printf(" ");
 					gotoxy(x - 2, ++y);
@@ -327,8 +347,8 @@ void draw_map(int(*map)[MAP_SIZE_W])
 //시작 화면
 int start_screen(void)
 {
-	int x = 24;
-	int y = 6;
+	int x = M_W;
+	int y = M_H;
 	system("cls");
 	printf("\n\n");
 	printf("                      게임 제목\n\n");
@@ -343,14 +363,14 @@ int start_screen(void)
 	do {
 		int ch = _getch();
 		if (ch == ENTER || ch == SPACE)
-			return y - 6;
+			return y - M_H;
 		if (ch == 224) {
 			ch = _getch();
 			printf(" \b");
 			switch (ch) {
-				//y좌표는 최대 6에서 8
+				//y좌표는 최대 M_H에서 M_H++2
 			case UP: //키보드 UP
-				if (y > 6) {
+				if (y > M_H) {
 					gotoxy(x - 2, y);
 					printf(" ");
 					gotoxy(x - 2, --y);
@@ -358,7 +378,7 @@ int start_screen(void)
 				}
 				break;
 			case DOWN: //키보드 DOWN
-				if (y < 8) {
+				if (y < M_H + 2) {
 					gotoxy(x - 2, y);
 					printf(" ");
 					gotoxy(x - 2, ++y);
@@ -373,7 +393,8 @@ int start_screen(void)
 int game_start(int(*map)[MAP_SIZE_W], int start, int* x, int* y)
 {
 	int item, level, ch;
-
+	int money = 100; //초기 월급
+	
 	if (start == 0)
 	{
 		level = menu();
@@ -388,7 +409,19 @@ int game_start(int(*map)[MAP_SIZE_W], int start, int* x, int* y)
 
 
 		while (1) {
-			item = move_key(map, x, y, level);
+			item = move_key(map, x, y, level, &money);
+
+			//타이머
+			gotoxy(61, 1);
+			printf("%d", time_taken);
+			
+			if (money >= 0)
+			{
+				gotoxy(61, 22);
+				printf("월급: %4d만원", money);
+			}
+			else
+				money = 0;
 
 			//ESC 눌렀을 때 일시정지
 			//return -1: 이어하기
@@ -405,21 +438,51 @@ int game_start(int(*map)[MAP_SIZE_W], int start, int* x, int* y)
 			//return -3: 게임 종료
 			else if (item == -3)
 			{
-				return 0;
+				return 0; 
 			}
 
 
-			if (item == -99)	// code that allow not to go to next level
+			if (item == 1)
 			{
 				if (level == 2)
 				{
-					printf("게임 완료");
+					system("cls");
+					gotoxy(25, 10);
+					printf("######  ##   ##  #####");
+					gotoxy(25, 11);
+					printf("##      ###  ##  ##  ##");
+					gotoxy(25, 12);
+					printf("##      #### ##  ##   ##");
+					gotoxy(25, 13);
+					printf("#####   #######  ##   ##");
+					gotoxy(25, 14);
+					printf("##      ## ####  ##   ##");
+					gotoxy(25, 15);
+					printf("##      ##  ###  ##  ##");
+					gotoxy(25, 16);
+					printf("######  ##   ##  #####");
+
 					Sleep(2000);
 					return 1; //반환이 1이면 시작화면으로
 				}
-				else if (level == 0 || level == 1)
+				else if(level == 0 || level == 1)
 				{
-					printf("다음 레벨로");
+					system("cls");
+					gotoxy(9, 8);
+					printf("##       ######  ##   ##   ######   ##           ##   ##  ######   ");
+					gotoxy(9, 9);
+					printf("##       ##      ##   ##   ##       ##           ##   ##  ##   ##");
+					gotoxy(9, 10);
+					printf("##       ##      ##   ##   ##       ##           ##   ##  ##   ##");
+					gotoxy(9, 11);
+					printf("##       #####   ### ###   #####    ##           ##   ##  ##   ##");
+					gotoxy(9, 12);
+					printf("##       ##       #####    ##       ##           ##   ##  ######");
+					gotoxy(9, 13);
+					printf("##       ##        ###     ##       ##           ##   ##  ##");
+					gotoxy(9, 14);
+					printf("######   ######     #      ######   ######        #####   ##");
+
 					Sleep(2000);
 					system("cls");
 					level = level + 1;
@@ -435,6 +498,16 @@ int game_start(int(*map)[MAP_SIZE_W], int start, int* x, int* y)
 	else if (start == 1)
 	{
 		//게임 룰 설명(계약서)
+		system("cls");
+		int r;
+		r = rule();
+		if (r == 0)
+		{
+			return 1; //메인 메뉴로(뒤로 가기)
+		}
+		else
+			return 2; //게임 시작
+		
 	}
 	else
 	{
@@ -443,30 +516,30 @@ int game_start(int(*map)[MAP_SIZE_W], int start, int* x, int* y)
 }
 int pause(void)
 {
-	int x = 24;
-	int y = 6;
+	int x = M_W;
+	int y = M_H;
 	system("cls");
-	printf("\n\n");
-	printf("                     일시정지\n\n");
+	gotoxy(0, y - 8);
+	printf("                         [일시 정지]\n\n");
 
 	gotoxy(x - 2, y);
 	printf("> 이어 하기");  //return -1
 	gotoxy(x, y + 1);
-	printf("메인 메뉴로"); //return -2
+	printf("메인 메뉴"); //return -2
 	gotoxy(x, y + 2);
 	printf("게임 종료"); //return -3
 
 	do {
 		int ch = _getch();
 		if (ch == ENTER || ch == SPACE)
-			return y - 6;
+			return y - M_H;
 		if (ch == 224) {
 			ch = _getch();
 			printf(" \b");
 			switch (ch) {
-				//y좌표는 최대 6에서 8
+				//y좌표는 최대 M_H에서 M_H+2
 			case UP: //키보드 UP
-				if (y > 6) {
+				if (y > M_H) {
 					gotoxy(x - 2, y);
 					printf(" ");
 					gotoxy(x - 2, --y);
@@ -474,7 +547,7 @@ int pause(void)
 				}
 				break;
 			case DOWN: //키보드 DOWN
-				if (y < 8) {
+				if (y < M_H + 2) {
 					gotoxy(x - 2, y);
 					printf(" ");
 					gotoxy(x - 2, ++y);
@@ -486,6 +559,7 @@ int pause(void)
 	} while (1);
 }
 
+//맵 안의 벽 생성
 void creation_block(int(*map)[MAP_SIZE_W], int level)
 {
 	int b_h, b_w;
@@ -547,4 +621,71 @@ void creation_block(int(*map)[MAP_SIZE_W], int level)
 			break;
 		}
 	}
+}
+
+//게임 룰
+int rule(void)
+{
+	int contract[MAP_SIZE_H][MAP_SIZE_W];
+	generate_map(contract);
+	draw_map(contract);
+
+	gotoxy(1, 0);
+	printf("계약서(게임 설명)");
+	gotoxy(2, 3);
+	printf("1. 시간 안에 숨겨진 월급을 찾아라.");
+	gotoxy(2, 6);
+	printf("2. 3종류의 미니게임");
+	gotoxy(2, 7);
+	printf("\t- 목표 점수 이상 획득 성공: 월급 10만원 증가");
+	gotoxy(2, 8);
+	printf("\t- 목표 점수 이상 획득 실패: 월급 10만원 감소");
+	gotoxy(2, 10);
+	printf("2-1. 물품정리: A, S, D키를 사용하여 물품을 알맞은 칸에");
+	gotoxy(2, 11);
+	printf("               넣어라.");
+	gotoxy(2, 13);
+	printf("2-2. 손님    : A, S, D키를 사용하여 물품을 알맞은 칸에");
+	gotoxy(2, 14);
+	printf("               넣어라.");
+	gotoxy(2, 16);
+	printf("2-3. 택배정리: A, S, D키를 사용하여 물품을 알맞은 칸에");
+	gotoxy(2, 17);
+	printf("               넣어라.");
+
+	int x = M_W;
+	int y = M_H + 5;
+	gotoxy(x - 2, y);
+	printf("> back");  //return -1
+	gotoxy(x, y + 1);
+	printf("게임 시작"); //return -2
+
+	do {
+		int ch = _getch();
+		if (ch == ENTER || ch == SPACE)
+			return y - M_H - 5;
+		if (ch == 224) {
+			ch = _getch();
+			printf(" \b");
+			switch (ch) {
+				//y좌표는 최대 M_H에서 M_H+1
+			case UP: //키보드 UP
+				if (y > M_H + 5) {
+					gotoxy(x - 2, y);
+					printf(" ");
+					gotoxy(x - 2, --y);
+					printf(">");
+				}
+				break;
+			case DOWN: //키보드 DOWN
+				if (y < M_H + 6) {
+					gotoxy(x - 2, y);
+					printf(" ");
+					gotoxy(x - 2, ++y);
+					printf(">");
+				}
+				break;
+			}
+		}
+	} while (1);
 }

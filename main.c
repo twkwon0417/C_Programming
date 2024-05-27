@@ -17,7 +17,7 @@ int main(void)
 	int map[MAP_SIZE_H][MAP_SIZE_W]; //map
 
 	init();
-	
+
 	//시드값 변경
 	srand(time(NULL));
 
@@ -32,7 +32,7 @@ int main(void)
 			s_c = game_start(map, 0, &x, &y);
 		}
 	} while (s_c);
-	
+
 	printf("\n\n\n");
 	return 0;
 }

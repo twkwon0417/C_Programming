@@ -31,16 +31,18 @@
 
 #define FRAME 60
 #define TIMER 10000
+#define TIME_LIMIT 100	//*//
+#define MAX_BOSS_SPEED_LEVEL 6	//*//
 
 
 void gotoxy(int x, int y);
-int move_key(int (*map)[MAP_SIZE_W], int* x, int* y, int level, int* money);
+int move_key(int(*map)[MAP_SIZE_W], int* x, int* y, int level, int* money);
 int menu(void);
-void generate_map(int (*map)[MAP_SIZE_W]);
-void level_map(int (*map)[MAP_SIZE_W], int level);
+void generate_map(int(*map)[MAP_SIZE_W]);
+void level_map(int(*map)[MAP_SIZE_W], int level);
 int start_screen(void);
-int flag(int (*map)[MAP_SIZE_W], int* x, int* y, int level, int* money);
-void draw_map(int (*map)[MAP_SIZE_W]);
+int flag(int(*map)[MAP_SIZE_W], int* x, int* y, int level, int* money);
+void draw_map(int(*map)[MAP_SIZE_W]);
 int game_start(int(*map)[MAP_SIZE_W], int start, int* x, int* y);
 int pause(void);
 void creation_block(int(*map)[MAP_SIZE_W], int level);

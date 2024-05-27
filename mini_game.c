@@ -1,5 +1,9 @@
 #include "Game.h"
 
+extern int boss_frame;	//*//
+extern int* boss_speed_array;	//*//
+extern int boss_speed_level;	//*//
+
 void textcolor(int colorNum) {
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), colorNum);
 }
@@ -86,7 +90,7 @@ int flag(int(*map)[MAP_SIZE_W], int* x, int* y, int level, int* money)
 			printf("  #########      ##########");
 			Sleep(2000);
 			system("cls");
-			
+
 			break;
 		case 4:
 			gotoxy(10, 7);
@@ -118,9 +122,10 @@ int flag(int(*map)[MAP_SIZE_W], int* x, int* y, int level, int* money)
 			check = delivery();
 			if (check == 1)
 				*money = *money + 10;
-			else
+			else {
 				*money = *money - 10;
-			
+				boss_frame = *(boss_frame_array + ++boss_speed_level);	//*//
+			}
 			break;
 		case 5:
 			gotoxy(10, 7);
@@ -152,8 +157,10 @@ int flag(int(*map)[MAP_SIZE_W], int* x, int* y, int level, int* money)
 			check = article(level);
 			if (check == 1)
 				*money = *money + 10;
-			else
-				*money = *money - 10;
+			else {	//*//
+				*money = *money - 10;	//*//
+				boss_frame = *(boss_frame_array + ++boss_speed_level);	//*//
+			}	//*//
 			break;
 		}
 		system("cls");
@@ -366,7 +373,7 @@ int article(int level)
 				break;
 			}
 		} while (ch != 'a' && ch != 's' && ch != 'd');
-		
+
 		textcolor(WHITE); //흰색 text
 		gotoxy(61, 22);
 		printf("목표 점수: %2d", goal);
@@ -387,7 +394,7 @@ int article(int level)
 	printf("        ");
 	gotoxy(64, 7);
 	printf("        ");
-	
+
 	Sleep(1500);
 	//목표 성공
 	if (goal <= score)

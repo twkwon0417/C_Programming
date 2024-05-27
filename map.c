@@ -1,14 +1,16 @@
 #include "Game.h"
 
 int frame_cnt = 0;  // which frame are we in, In 60frames   // could
-int boss_frame = 20;
+int boss_speed_array[] = {20, 15, 12, 10, 6, 5, 3};	//*//
+int boss_speed_level = 0;	//*//
+int boss_frame = 20;	//*//
 
 int boss_y = 20;
 int boss_x = 20;
 
 int time_taken = 0;
 
-void move_boss(int (*map)[MAP_SIZE_W], int* player_y, int* player_x) {
+void move_boss(int(*map)[MAP_SIZE_W], int* player_y, int* player_x) {
 	// based on player
 	int diff_y = *player_y - boss_y;
 	int diff_x = *player_x - boss_x;
@@ -36,7 +38,7 @@ void move_boss(int (*map)[MAP_SIZE_W], int* player_y, int* player_x) {
 			}
 		}
 	}
-	if(map[boss_y + 1][boss_x] == -2)
+	if (map[boss_y + 1][boss_x] == -2)
 	{
 		boss_y++;
 	}
@@ -77,7 +79,7 @@ void gotoxy(int x, int y)
 int move_key(int(*map)[MAP_SIZE_W], int* x, int* y, int level, int* money)
 {
 	Sleep(1000 / FRAME);  // 화면은 1초마다 60번 업데이트 된다.
-	
+
 	frame_cnt++;
 	if (frame_cnt == 61) {   // TODO:not sure if it iterates 60 time and resetted
 		frame_cnt = 1;
@@ -394,7 +396,7 @@ int game_start(int(*map)[MAP_SIZE_W], int start, int* x, int* y)
 {
 	int item, level, ch;
 	int money = 100; //초기 월급
-	
+
 	if (start == 0)
 	{
 		level = menu();
@@ -412,9 +414,11 @@ int game_start(int(*map)[MAP_SIZE_W], int start, int* x, int* y)
 			item = move_key(map, x, y, level, &money);
 
 			//타이머
-			gotoxy(61, 1);
-			printf("%d", time_taken);
-			
+			gotoxy(61, 1);	//*//
+			printf("          ");	//*//
+			gotoxy(61, 1);	//*//
+			printf("%d", TIME_LIMIT - time_taken);	//*//
+
 			if (money >= 0)
 			{
 				gotoxy(61, 22);
@@ -438,7 +442,7 @@ int game_start(int(*map)[MAP_SIZE_W], int start, int* x, int* y)
 			//return -3: 게임 종료
 			else if (item == -3)
 			{
-				return 0; 
+				return 0;
 			}
 
 
@@ -465,7 +469,7 @@ int game_start(int(*map)[MAP_SIZE_W], int start, int* x, int* y)
 					Sleep(2000);
 					return 1; //반환이 1이면 시작화면으로
 				}
-				else if(level == 0 || level == 1)
+				else if (level == 0 || level == 1)
 				{
 					system("cls");
 					gotoxy(9, 8);
@@ -507,7 +511,7 @@ int game_start(int(*map)[MAP_SIZE_W], int start, int* x, int* y)
 		}
 		else
 			return 2; //게임 시작
-		
+
 	}
 	else
 	{

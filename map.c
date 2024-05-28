@@ -91,6 +91,20 @@ int move_key(int(*map)[MAP_SIZE_W], int* x, int* y, int level, int* money)
 		draw_boss(map, y, x);
 	}
 
+	if (*x == boss_x && *y == boss_y) {	//*//
+		gotoxy(80, 80);	//*//
+		//printf("hit");	//*//
+		// where deffect happen
+		if (boss_x == 1 && boss_y == 1) {	//*//
+			*x = 60;	//*//
+			*y = 60;	//*//
+		}	//*//
+		else {	//*//
+			*x = 1;	//*//
+			*y = 1;	//*//
+		}	//*//
+	}	//*//
+
 	int ch, f, stop;
 
 	gotoxy(*x, *y);
@@ -418,7 +432,7 @@ int game_start(int(*map)[MAP_SIZE_W], int start, int* x, int* y)
 			printf("          ");	//*//
 			gotoxy(61, 1);	//*//
 			printf("%d", TIME_LIMIT - time_taken);	//*//
-			if (TIME_LIMIT - time_taken == 0) {	//*//	시간 초과시 종료
+			if (TIME_LIMIT - time_taken <= 0) {	//*//	시간 초과시 종료
 				return 9999;	//*//
 			}	//*//
 

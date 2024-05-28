@@ -1,7 +1,7 @@
 #include "Game.h"
 
 int frame_cnt = 0;  // which frame are we in, In 60frames   // could
-int boss_speed_array[] = {20, 15, 12, 10, 6, 5, 3};	//*//
+int boss_speed_array[] = { 20, 15, 12, 10, 6, 5, 3 };	//*//
 int boss_speed_level = 0;	//*//
 int boss_frame = 20;	//*//
 
@@ -418,6 +418,9 @@ int game_start(int(*map)[MAP_SIZE_W], int start, int* x, int* y)
 			printf("          ");	//*//
 			gotoxy(61, 1);	//*//
 			printf("%d", TIME_LIMIT - time_taken);	//*//
+			if (TIME_LIMIT - time_taken == 0) {	//*//	시간 초과시 종료
+				return 9999;	//*//
+			}	//*//
 
 			if (money >= 0)
 			{

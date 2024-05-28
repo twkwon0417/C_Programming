@@ -1,7 +1,7 @@
 #include "Game.h"
 
 extern int boss_frame;	//*//
-extern int* boss_speed_array;	//*//
+int boss_frame_array[] = { 20, 15, 12, 10, 6, 5, 3 };	//*//
 extern int boss_speed_level;	//*//
 
 void textcolor(int colorNum) {
@@ -124,7 +124,10 @@ int flag(int(*map)[MAP_SIZE_W], int* x, int* y, int level, int* money)
 				*money = *money + 10;
 			else {
 				*money = *money - 10;
-				boss_frame = *(boss_frame_array + ++boss_speed_level);	//*//
+				if (boss_speed_level < MAX_BOSS_SPEED_LEVEL) {	//*//
+					boss_speed_level++;	//*//
+				}	//*//
+				boss_frame = *(boss_frame_array + boss_speed_level);	//*//
 			}
 			break;
 		case 5:
@@ -159,7 +162,10 @@ int flag(int(*map)[MAP_SIZE_W], int* x, int* y, int level, int* money)
 				*money = *money + 10;
 			else {	//*//
 				*money = *money - 10;	//*//
-				boss_frame = *(boss_frame_array + ++boss_speed_level);	//*//
+				if (boss_speed_level < MAX_BOSS_SPEED_LEVEL) {	//*//
+					boss_speed_level++;	//*//
+				}	//*//
+				boss_frame = *(boss_frame_array + boss_speed_level);	//*//
 			}	//*//
 			break;
 		}

@@ -33,6 +33,8 @@
 #define TIMER 10000
 #define TIME_LIMIT 100	//*//
 #define MAX_BOSS_SPEED_LEVEL 6	//*//
+#define BOSS_SPEED_UP_POSSIBLE -10	//*//
+#define BOSS_SPEED_UP_IMPOSSIBLE -11	//*//
 
 
 void gotoxy(int x, int y);

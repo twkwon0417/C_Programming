@@ -124,10 +124,7 @@ int flag(int(*map)[MAP_SIZE_W], int* x, int* y, int level, int* money)
 				*money = *money + 10;
 			else {
 				*money = *money - 10;
-				if (boss_speed_level < MAX_BOSS_SPEED_LEVEL) {	//*//
-					boss_speed_level++;	//*//
-				}	//*//
-				boss_frame = *(boss_frame_array + boss_speed_level);	//*//
+				mini_game_fail_penalty();	// 보스의 속도 증가 여부에따라 ...(IM)POSSIBLE 반환 Header 참고
 			}
 			break;
 		case 5:
@@ -162,10 +159,7 @@ int flag(int(*map)[MAP_SIZE_W], int* x, int* y, int level, int* money)
 				*money = *money + 10;
 			else {	//*//
 				*money = *money - 10;	//*//
-				if (boss_speed_level < MAX_BOSS_SPEED_LEVEL) {	//*//
-					boss_speed_level++;	//*//
-				}	//*//
-				boss_frame = *(boss_frame_array + boss_speed_level);	//*//
+				mini_game_fail_penalty();	// 보스의 속도 증가 여부에따라 ...(IM)POSSIBLE 반환 Header 참고
 			}	//*//
 			break;
 		}
@@ -623,3 +617,12 @@ void moveKey(int(*map)[MAP_SIZE_W], int* x, int* y)
 		}
 	}
 }
+
+int mini_game_fail_penalty() {	//*//
+	if (boss_speed_level < MAX_BOSS_SPEED_LEVEL) {	//*//
+		boss_speed_level++;	//*//
+		boss_frame = *(boss_frame_array + boss_speed_level);	//*//
+		return BOSS_SPEED_UP_POSSIBLE;	//*//
+	}	//*//
+	return BOSS_SPEED_UP_IMPOSSIBLE;	//*//
+}	//*//

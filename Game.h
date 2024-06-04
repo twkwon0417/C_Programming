@@ -31,7 +31,7 @@
 
 #define FRAME 60
 #define TIMER 10000
-#define TIME_LIMIT 100	//*//
+#define TIME_LIMIT 10	//*//
 #define MAX_BOSS_SPEED_LEVEL 6	//*//
 #define BOSS_SPEED_UP_POSSIBLE -10	//*//
 #define BOSS_SPEED_UP_IMPOSSIBLE -11	//*//
@@ -47,7 +47,7 @@ int move_key(int(*map)[MAP_SIZE_W], int* x, int* y, int level, int* money);
 int menu(void);
 void generate_map(int(*map)[MAP_SIZE_W]);
 void level_map(int(*map)[MAP_SIZE_W], int level);
-int start_screen(void);
+int start_screen(char pn[], int n);
 int flag(int(*map)[MAP_SIZE_W], int* x, int* y, int level, int* money);
 void draw_map(int(*map)[MAP_SIZE_W]);
 int game_start(int(*map)[MAP_SIZE_W], int start, int* x, int* y);
@@ -58,8 +58,7 @@ int rule(void);
 void textcolor(int colorNum);
 int article(int level);
 
-void move_boss(int* player_y, int* player_x);
-void gameMap(int(*map)[MAP_SIZE_W]);
+void move_boss(int(*map)[MAP_SIZE_W], int* player_y, int* player_x);
 void drawMap(int(*map)[MAP_SIZE_W], int remaining_time);
 void setNumber(int(*map)[MAP_SIZE_W], int* num, int* x, int* y);
-void moveKey(int(*map)[MAP_SIZE_W], int* x, int* y, int* score, int num);
+void moveKey(int(*map)[MAP_SIZE_W], int* x, int* y);

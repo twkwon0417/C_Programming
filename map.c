@@ -406,6 +406,7 @@ int start_screen(void)
 	} while (1);
 
 }
+
 int game_start(int(*map)[MAP_SIZE_W], int start, int* x, int* y)
 {
 	int item, level, ch;
@@ -709,4 +710,46 @@ int rule(void)
 			}
 		}
 	} while (1);
+}
+
+void first_show(char(*name)[NAMESIZE])
+{
+	gotoxy(1, 0);
+	slow_print("계약서(게임 설명)        Enter키를 누르면 skip\n\n\n \\
+		1. 시간 안에 숨겨진 월급을 찾아라.\n\n\n \\
+		2. 3종류의 미니게임\n   \\
+		- 목표 점수 이상 획득 성공 : 월급 10만원 증가\n \\
+		- 목표 점수 이상 획득 실패 : 월급 10만원 감소\n\n\\
+		2 - 1. 물품정리: A, S, D키를 사용하여 물품을 알맞은 칸에\n\\
+		넣어라.\n\n\\
+		2 - 2. 손님    : A, S, D키를 사용하여 물품을 알맞은 칸에\n\\
+		넣어라.\n\n\\
+		2 - 3. 택배정리: A, S, D키를 사용하여 물품을 알맞은 칸에\n\\
+		넣어라.\n\n\\
+		확인한 후에 서명하세요.\n\\
+		player 서명 : ", 30);
+
+		init(1); //커서 안 보이기
+	gets_s(*name, NAMESIZE);
+	init(0);
+
+}
+
+
+void skip()
+{
+	system("cls");   //skip후 전체 내용출력
+	printf("계약서(게임 설명)\n\n\n\\
+		1. 시간 안에 숨겨진 월급을 찾아라.\n\n\n\\
+		2. 3종류의 미니게임\n\\
+		- 목표 점수 이상 획득 성공 : 월급 10만원 증가\n\\
+		- 목표 점수 이상 획득 실패 : 월급 10만원 감소\n\n\\
+		2 - 1. 물품정리: A, S, D키를 사용하여 물품을 알맞은 칸에\n\\
+		넣어라.\n\n\\
+		2 - 2. 손님    : A, S, D키를 사용하여 물품을 알맞은 칸에\n\\
+		넣어라.\n\n\\
+		2 - 3. 택배정리: A, S, D키를 사용하여 물품을 알맞은 칸에\n\\
+		넣어라.\n\n\\
+		확인한 후에 서명하세요.\n\\
+		player 서명 : ");
 }

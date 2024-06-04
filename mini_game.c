@@ -469,7 +469,7 @@ int delivery(void)
 	int targetScore = 6; //목표 점
 	int timer = TIMER;
 
-	init();
+	init(0);
 	printf("택배 정리\n");
 	printf("규정한 시간에 택배를 받아야 합니다.");
 	Sleep(3000);

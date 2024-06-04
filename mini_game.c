@@ -141,7 +141,7 @@ int flag(int(*map)[MAP_SIZE_W], int* x, int* y, int level, int* money)
 			gotoxy(10, 12);
 			printf("########################    ### ###  #  #        #");
 			gotoxy(10, 13);
-			printf("     ■■           #        ##     #  #  #        #");
+			printf("     ##           #        ##     #  #  #        #");
 			gotoxy(10, 14);
 			printf("  ########        #            ######   #        #");
 			gotoxy(10, 15);
@@ -244,49 +244,49 @@ int article(int level)
 			gotoxy(64, 4);
 			printf("        ");
 			gotoxy(65, 4);
-			printf(" ⢔⢆⡢⣢⠀");
+			printf(" ##### ");
 			gotoxy(64, 5);
 			printf("        ");
 			gotoxy(65, 5);
-			printf(" ⠑⡊⢞⢑⠀");
+			printf(" ##### ");
 			gotoxy(64, 6);
 			printf("        ");
 			gotoxy(65, 6);
-			printf(" ⡪⡣⣫⢗⠀");
+			printf(" ##### ");
 			gotoxy(64, 7);
 			printf("        ");
 			gotoxy(65, 7);
-			printf(" ⠨⠪⠎⠏⠀");
+			printf(" ##### ");
 			break;
 		case 1:
 			printf("라면");
 			gotoxy(64, 4);
 			printf("        ");
 			gotoxy(65, 4);
-			printf("⢠⢰⡴⣖⢤⠄");
+			printf("######");
 			gotoxy(64, 5);
 			printf("        ");
 			gotoxy(65, 5);
-			printf(" ⢷⣻⡺⡷⠁");
+			printf(" #### ");
 			gotoxy(64, 6);
 			printf("        ");
 			gotoxy(65, 6);
-			printf("⠀⢽⡳⣕⢟⠀");
+			printf(" #### ");
 			gotoxy(64, 7);
 			printf("        ");
 			gotoxy(65, 7);
-			printf(" ⠘⠵⠭⠂⠀");
+			printf(" #### ");
 			break;
 		case 2:
 			printf("과자");
 			gotoxy(64, 4);
-			printf("⢀⡀⡀⡀⠀⠀⠀⠀");
+			printf("####    ");
 			gotoxy(64, 5);
-			printf("⢸⡍⡏⡯⢫⣏⢯⡁");
+			printf("########");
 			gotoxy(64, 6);
-			printf("⢸⣺⢒⡚⡜⣎⢷⡁");
+			printf("########");
 			gotoxy(64, 7);
-			printf("  ⠁⠉⠁⠃⠛⠀");
+			printf("   #####");
 			break;
 		}
 		//키보드 a, s, d키 눌렀을 때
@@ -298,13 +298,13 @@ int article(int level)
 				{
 					score++;
 					gotoxy(a1 + a_c * 6, a2);
-					printf(" ⢔⢆⡢⣢⠀");
+					printf(" ##### ");
 					gotoxy(a1 + a_c * 6, a2 + 1);
-					printf(" ⠑⡊⢞⢑⠀");
+					printf(" ##### ");
 					gotoxy(a1 + a_c * 6, a2 + 2);
-					printf(" ⡪⡣⣫⢗⠀");
+					printf(" ##### ");
 					gotoxy(a1 + a_c * 6, a2 + 3);
-					printf(" ⠨⠪⠎⠏⠀");
+					printf(" ##### ");
 					gotoxy(a1 + a_c * 6 + 1, a2 + 4);
 					printf("음료");
 					gotoxy(62 + i, 9);
@@ -324,13 +324,13 @@ int article(int level)
 				{
 					score++;
 					gotoxy(b1 + b_c * 6, b2);
-					printf("⢠⢰⡴⣖⢤⠄");
+					printf("######");
 					gotoxy(b1 + b_c * 6, b2 + 1);
-					printf(" ⢷⣻⡺⡷⠁");
+					printf(" #### ");
 					gotoxy(b1 + b_c * 6, b2 + 2);
-					printf("⠀⢽⡳⣕⢟⠀");
+					printf(" #### ");
 					gotoxy(b1 + b_c * 6, b2 + 3);
-					printf(" ⠘⠵⠭⠂⠀");
+					printf(" #### ");
 					gotoxy(b1 + b_c * 6 + 1, b2 + 4);
 					printf("라면");
 					gotoxy(62 + i, 9);
@@ -350,13 +350,13 @@ int article(int level)
 				{
 					score++;
 					gotoxy(c1 + c_c * 6, c2);
-					printf("⢀⡀⡀⡀⠀⠀⠀⠀");
+					printf("####    ");
 					gotoxy(c1 + c_c * 6, c2 + 1);
-					printf("⢸⡍⡏⡯⢫⣏⢯⡁");
+					printf("########");
 					gotoxy(c1 + c_c * 6, c2 + 2);
-					printf("⢸⣺⢒⡚⡜⣎⢷⡁");
+					printf("########");
 					gotoxy(c1 + c_c * 6, c2 + 3);
-					printf("  ⠁⠉⠁⠃⠛⠀");
+					printf("   #####");
 					gotoxy(c1 + c_c * 6 + 1, c2 + 4);
 					printf("과자");
 					gotoxy(62 + i, 9);
@@ -473,7 +473,7 @@ int delivery(void)
 	printf("택배 정리\n");
 	printf("규정한 시간에 택배를 받아야 합니다.");
 	Sleep(3000);
-	gameMap(g_map);
+	generate_map(g_map);
 
 	while (score < targetScore)
 	{
@@ -483,7 +483,14 @@ int delivery(void)
 		DWORD current_time;
 		drawMap(g_map, score);
 
-		//drawMap(g_map, r_time, score); 
+		gotoxy(MAP_SIZE_W + 1, 1);
+		printf("제한 시간");
+		gotoxy(MAP_SIZE_W + 1, 2);
+		printf("1~2번째 택배: 9초");
+		gotoxy(MAP_SIZE_W + 1, 3);
+		printf("3~4번째 택배: 7초");
+		gotoxy(MAP_SIZE_W + 1, 4);
+		printf("5~6번째 택배: 5초");
 
 		while (GetTickCount() - start_time < timer)  //출력하는 택배 유지하는 시간
 		{
@@ -538,19 +545,6 @@ int delivery(void)
 
 }
 
-void gameMap(int(*map)[MAP_SIZE_W])
-{
-	for (int i = 0; i < MAP_SIZE_H; i++)
-	{
-		for (int j = 0; j < MAP_SIZE_W; j++)
-		{
-			if (i == 0 || j == MAP_SIZE_W - 1 || j == 0 || i == MAP_SIZE_H - 1)
-				map[i][j] = -1;
-			else
-				map[i][j] = -2;
-		}
-	}
-}
 
 void drawMap(int(*map)[MAP_SIZE_W], int remaining_time)
 {
@@ -559,9 +553,9 @@ void drawMap(int(*map)[MAP_SIZE_W], int remaining_time)
 	{
 		for (int j = 0; j < MAP_SIZE_W; j++)
 		{
-			if (map[i][j] == -2)
+			if (map[i][j] == CLEARSPACE)
 				printf(" ");
-			else if (map[i][j] == -1)
+			else if (map[i][j] == WALL)
 				printf("#");
 			else
 				printf("□"); //택배 출력

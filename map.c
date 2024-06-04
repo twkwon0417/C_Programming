@@ -350,7 +350,7 @@ void draw_map(int(*map)[MAP_SIZE_W])
 			else if (temp == BLOCK)
 			{
 				textcolor(DARKRED);
-				printf("⣿");
+				printf("■");
 				textcolor(WHITE);
 			}
 			else //-1과 -2 제외한 숫자 깃발
@@ -361,13 +361,24 @@ void draw_map(int(*map)[MAP_SIZE_W])
 }
 
 //시작 화면
-int start_screen(void)
+int start_screen(char pn[], int n)
 {
 	int x = M_W;
 	int y = M_H;
 	system("cls");
-	printf("\n\n");
-	printf("                      게임 제목\n\n");
+	printf("  ######     ######      ######     ######            \n");
+	printf("  #               #      #               #            \n");
+	printf("  ######          #      ######          #            \n");
+	printf("            ########               ########           \n");
+	printf(" #######    #           #######    #                  \n");
+	printf("    #       #              #       #                  \n");
+	printf("    #       #######        #       #######            \n\n");
+	printf(" ######   #     ##    #   #####   #         ##    #    #   #   #\n");
+	printf("  #  #   ##   #    #  #     #    ##       #    #  ##   #####   #\n");
+	printf(" ######  ##     ##    #   #   #   #         ##    #    #   #   ###\n");
+	printf("          #           #    ########         #######    #####   #\n");
+	printf("  #           ####### #    #      #         #######            #\n");
+	printf("  ########            #    ########         #######            #");
 
 	gotoxy(x - 2, y);
 	printf("> 게임 시작");
@@ -375,6 +386,9 @@ int start_screen(void)
 	printf("게임 설명");
 	gotoxy(x, y + 2);
 	printf("게임 종료");
+	gotoxy(24, 20);
+	printf("현재 player: %s", pn);
+
 
 	do {
 		int ch = _getch();
@@ -429,12 +443,30 @@ int game_start(int(*map)[MAP_SIZE_W], int start, int* x, int* y)
 			item = move_key(map, x, y, level, &money);
 
 			//타이머
-			gotoxy(61, 1);	//*//
-			printf("          ");	//*//
-			gotoxy(61, 1);	//*//
-			printf("%d", TIME_LIMIT - time_taken);	//*//
+			gotoxy(61, 1);
+			printf("남은시간");
+			gotoxy(62, 2);	//*//
+			gotoxy(62, 2);	//*//
+			printf("%4d", TIME_LIMIT - time_taken);	//*//
 			if (TIME_LIMIT - time_taken <= 0) {	//*//	시간 초과시 종료
-				return 9999;	//*//
+				//printf로 시간 종료 알려주기
+				system("cls");
+				gotoxy(9, 8);
+				printf("######   ######   ##   ##  #######             ###    ##   ##  #######  ######\n");
+				gotoxy(9, 9);
+				printf("  ##       ##     ##   ##  ##                 ## ##   ##   ##  ##       ##   ##\n");
+				gotoxy(9, 10);
+				printf("  ##       ##     ### ###  ##                ##   ##  ##   ##  ##       ##   ##\n");
+				gotoxy(9, 11);
+				printf("  ##       ##     ## # ##  #####             ##   ##   ## ##   #####    ######\n");
+				gotoxy(9, 12);
+				printf("  ##       ##     ## # ##  ##                ##   ##   ## ##   ##       ## ##\n");
+				gotoxy(9, 13);
+				printf("  ##       ##     ##   ##  ##                 ## ##     ###    ##       ##  ##\n");
+				gotoxy(9, 14);
+				printf("  ##     ######   ##   ##  #######             ###      ###    #######  ##   ##\n");
+				Sleep(2000);
+				return 1;	//*//
 			}	//*//
 
 			if (money >= 0)
@@ -662,21 +694,23 @@ int rule(void)
 	printf("\t- 목표 점수 이상 획득 성공: 월급 10만원 증가");
 	gotoxy(2, 8);
 	printf("\t- 목표 점수 이상 획득 실패: 월급 10만원 감소");
-	gotoxy(2, 10);
-	printf("2-1. 물품정리: A, S, D키를 사용하여 물품을 알맞은 칸에");
+	gotoxy(2, 9);
+	printf("\t\t\t\t    점장님 속도 증가");
 	gotoxy(2, 11);
+	printf("2-1. 물품정리: A, S, D키를 사용하여 물품을 알맞은 칸에");
+	gotoxy(2, 12);
 	printf("               넣어라.");
-	gotoxy(2, 13);
-	printf("2-2. 손님    : A, S, D키를 사용하여 물품을 알맞은 칸에");
 	gotoxy(2, 14);
+	printf("2-2. 손님    : A, S, D키를 사용하여 물품을 알맞은 칸에");
+	gotoxy(2, 15);
 	printf("               넣어라.");
-	gotoxy(2, 16);
-	printf("2-3. 택배정리: A, S, D키를 사용하여 물품을 알맞은 칸에");
 	gotoxy(2, 17);
-	printf("               넣어라.");
+	printf("2-3. 택배정리: 방향키를 사용하여 제한시간 안에 택배 □를");
+	gotoxy(2, 18);
+	printf("               받아라.");
 
 	int x = M_W;
-	int y = M_H + 5;
+	int y = M_H + 7;
 	gotoxy(x - 2, y);
 	printf("> back");  //return -1
 	gotoxy(x, y + 1);
@@ -685,14 +719,14 @@ int rule(void)
 	do {
 		int ch = _getch();
 		if (ch == ENTER || ch == SPACE)
-			return y - M_H - 5;
+			return y - M_H - 7;
 		if (ch == 224) {
 			ch = _getch();
 			printf(" \b");
 			switch (ch) {
 				//y좌표는 최대 M_H에서 M_H+1
 			case UP: //키보드 UP
-				if (y > M_H + 5) {
+				if (y > M_H + 7) {
 					gotoxy(x - 2, y);
 					printf(" ");
 					gotoxy(x - 2, --y);
@@ -700,7 +734,7 @@ int rule(void)
 				}
 				break;
 			case DOWN: //키보드 DOWN
-				if (y < M_H + 6) {
+				if (y < M_H + 8) {
 					gotoxy(x - 2, y);
 					printf(" ");
 					gotoxy(x - 2, ++y);
@@ -719,13 +753,13 @@ void first_show(char(*name)[NAMESIZE])
 		1. 시간 안에 숨겨진 월급을 찾아라.\n\n\n \\
 		2. 3종류의 미니게임\n   \\
 		- 목표 점수 이상 획득 성공 : 월급 10만원 증가\n \\
-		- 목표 점수 이상 획득 실패 : 월급 10만원 감소\n\n\\
+		- 목표 점수 이상 획득 실패 : 월급 10만원 감소, 점장님 속도 증가\n\n\\
 		2 - 1. 물품정리: A, S, D키를 사용하여 물품을 알맞은 칸에\n\\
 		넣어라.\n\n\\
 		2 - 2. 손님    : A, S, D키를 사용하여 물품을 알맞은 칸에\n\\
 		넣어라.\n\n\\
-		2 - 3. 택배정리: A, S, D키를 사용하여 물품을 알맞은 칸에\n\\
-		넣어라.\n\n\\
+		2 - 3. 택배정리: 방향키를 사용하여 제한시간 안에 택배 □를\n\\
+		받아라.\n\n\\
 		확인한 후에 서명하세요.\n\\
 		player 서명 : ", 30);
 
@@ -743,13 +777,13 @@ void skip()
 		1. 시간 안에 숨겨진 월급을 찾아라.\n\n\n\\
 		2. 3종류의 미니게임\n\\
 		- 목표 점수 이상 획득 성공 : 월급 10만원 증가\n\\
-		- 목표 점수 이상 획득 실패 : 월급 10만원 감소\n\n\\
+		- 목표 점수 이상 획득 실패 : 월급 10만원 감소, 점장님 속도 증가\n\n\\
 		2 - 1. 물품정리: A, S, D키를 사용하여 물품을 알맞은 칸에\n\\
 		넣어라.\n\n\\
 		2 - 2. 손님    : A, S, D키를 사용하여 물품을 알맞은 칸에\n\\
 		넣어라.\n\n\\
-		2 - 3. 택배정리: A, S, D키를 사용하여 물품을 알맞은 칸에\n\\
-		넣어라.\n\n\\
+		2 - 3. 택배정리: 방향키를 사용하여 제한시간 안에 택배 □를\n\\
+		받아라.\n\n\\
 		확인한 후에 서명하세요.\n\\
 		player 서명 : ");
 }

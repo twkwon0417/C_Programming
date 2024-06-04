@@ -25,15 +25,15 @@ void slow_print(const char* str, int delay)   //글자 출력하는 속도 제�
         putchar(*str++);  //문자열을 하나씩 출력함
         Sleep(delay);
     }
-
-    skip(); //skip후 전체 내용출력
+    if (delay == 30)
+        skip(); //skip후 전체 내용출력
 }
 
 int main(void)
 {
     int start, s_c;
     int x = 1, y = 1; //사용자 위치
-    int map[MAP_SIZE_H][MAP_SIZE_W]; //map
+    int map[MAP_SIZE_H][MAP_SIZE_W]; //기본 map
     char playName[NAMESIZE] = { NULL }; //사용자 이름
 
     init(0);
@@ -42,11 +42,14 @@ int main(void)
     srand(time(NULL));
 
     //맨 처음 게임을 시작할때 스토리 넣기 (skip 되도록) -> 계약서에 이름 넣기 구현
+    slow_print("학비와 생활비를 충당하기 위해 편의점 알바를 시작하게 되는데...", 20);
+    Sleep(1000);
+    system("cls");
     first_show(playName);
 
     do {
         x = 1, y = 1;
-        start = start_screen(playName, NAMESIZE); //배열 인수 전달 추가
+        start = start_screen(playName, NAMESIZE); 
         s_c = game_start(map, start, &x, &y);
         if (s_c == 2)
         {

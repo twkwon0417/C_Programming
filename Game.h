@@ -35,7 +35,12 @@
 #define MAX_BOSS_SPEED_LEVEL 6	//*//
 #define BOSS_SPEED_UP_POSSIBLE -10	//*//
 #define BOSS_SPEED_UP_IMPOSSIBLE -11	//*//
+#define NAMESIZE 20
 
+void skip();
+void first_show(char(*name)[NAMESIZE]);
+void slow_print(const char* str, int delay);
+void init(int visible);
 
 void gotoxy(int x, int y);
 int move_key(int(*map)[MAP_SIZE_W], int* x, int* y, int level, int* money);

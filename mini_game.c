@@ -55,7 +55,7 @@ int flag(int(*map)[MAP_SIZE_W], int* x, int* y, int level, int* money, char play
                     Money[i][j] = CLEARSPACE;
             }
         }
-        draw_map(Money);
+        drawMap(Money);
         gotoxy(20, 2);
         printf("%10s의 통장", playName);
         gotoxy(23, 4);
@@ -63,11 +63,11 @@ int flag(int(*map)[MAP_SIZE_W], int* x, int* y, int level, int* money, char play
         gotoxy(22, 13);
         printf("┏ㅡㅡㅡㅡㅡㅡㅡ┓\n");
         gotoxy(22, 14);
-        printf("┃＼　　　　　／┃\n");
+        printf("┃\\　　　 　　／┃\n");
         gotoxy(22, 15);
-        printf("┃　＼　$$  ／　┃\n");
+        printf("┃　\\　 $$  ／　┃\n");
         gotoxy(22, 16);
-        printf("┃　／＼＿／＼　┃\n");
+        printf("┃　／\\ ＿／ \\　┃\n");
         gotoxy(22, 17);
         printf("┗ㅡㅡㅡㅡㅡㅡㅡ┛\n");
         gotoxy(18, 22);
@@ -224,7 +224,7 @@ int article(int level)
         }
     }
     //map 그리기
-    draw_map(mini_game_map);
+    drawMap(mini_game_map);
     gotoxy(61, 1);
     printf("--------------");
     gotoxy(61, 8);
@@ -714,7 +714,7 @@ void draw_board() {
         }
     }
     //map 그리기
-    draw_map(mini_game_map);
+    drawMap(mini_game_map);
 }
 void draw_customer_map(Note notes[WIDTH][HEIGHT], int score) {
 

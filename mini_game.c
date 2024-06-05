@@ -1,7 +1,6 @@
 #include "Game.h"
 
-extern int boss_frame;   //*//
-int boss_frame_array[] = { 20, 15, 12, 10, 6, 5, 3 };   //*//
+extern int boss_speed_array[];
 extern int boss_speed_level;   //*//
 
 void textcolor(int colorNum) {
@@ -82,123 +81,123 @@ int flag(int(*map)[MAP_SIZE_W], int* x, int* y, int level, int* money, char play
     {
         switch (map[*y][*x] % 5 + 1)
         {
-            case 1:
-                printf("월급 감소");
-                *money = *money - 10;
-                Sleep(2000);
-                system("cls");
-                break;
-            case 2:
-                printf("월급 증가");
+        case 1:
+            printf("월급 감소");
+            *money = *money - 10;
+            Sleep(2000);
+            system("cls");
+            break;
+        case 2:
+            printf("월급 증가");
+            *money = *money + 10;
+            Sleep(2000);
+            system("cls");
+            break;
+        case 3:
+            gotoxy(10, 7);
+            printf("     ##         #         #");
+            gotoxy(10, 8);
+            printf("     ##         #         #");
+            gotoxy(10, 9);
+            printf("    ####        #         #");
+            gotoxy(10, 10);
+            printf(" ###    ###     #         #");
+            gotoxy(10, 11);
+            printf("##   ##   ##    #         #");
+            gotoxy(10, 12);
+            printf("     ##         ########  #");
+            gotoxy(10, 13);
+            printf("############              #");
+            gotoxy(10, 14);
+            printf("  #              ##########");
+            gotoxy(10, 15);
+            printf("  ##             #        #");
+            gotoxy(10, 16);
+            printf("  ##             #        #");
+            gotoxy(10, 17);
+            printf("  ##             #        #");
+            gotoxy(10, 18);
+            printf("  #########      ##########");
+            Sleep(2000);
+            system("cls");
+            check = customer(level);
+            if (check == 1)
                 *money = *money + 10;
-                Sleep(2000);
-                system("cls");
-                break;
-            case 3:
-                gotoxy(10, 7);
-                printf("     ##         #         #");
-                gotoxy(10, 8);
-                printf("     ##         #         #");
-                gotoxy(10, 9);
-                printf("    ####        #         #");
-                gotoxy(10, 10);
-                printf(" ###    ###     #         #");
-                gotoxy(10, 11);
-                printf("##   ##   ##    #         #");
-                gotoxy(10, 12);
-                printf("     ##         ########  #");
-                gotoxy(10, 13);
-                printf("############              #");
-                gotoxy(10, 14);
-                printf("  #              ##########");
-                gotoxy(10, 15);
-                printf("  ##             #        #");
-                gotoxy(10, 16);
-                printf("  ##             #        #");
-                gotoxy(10, 17);
-                printf("  ##             #        #");
-                gotoxy(10, 18);
-                printf("  #########      ##########");
-                Sleep(2000);
-                system("cls");
-                check = customer(level);
-                if (check == 1)
-                    *money = *money + 10;
-                else {
-                    *money = *money - 10;
-                    mini_game_fail_penalty();   // 보스의 속도 증가 여부에따라 ...(IM)POSSIBLE 반환 Header 참고
-                }
-                break;
-            case 4:
-                gotoxy(10, 7);
-                printf("#######    #  #   ##    ##  #  #");
-                gotoxy(10, 8);
-                printf("##         #  #   ##    ##  #  #");
-                gotoxy(10, 9);
-                printf("##         #  #   ##    ##  #  #");
-                gotoxy(10, 10);
-                printf("######     ####   ########  #  #");
-                gotoxy(10, 11);
-                printf("##         #  #   ##    ##  ####");
-                gotoxy(10, 12);
-                printf("##         #  #   ##    ##  #  #");
-                gotoxy(10, 13);
-                printf("########   #  #   ##    ##  #  #");
-                gotoxy(10, 14);
-                printf("                  ########  #  #");
-                gotoxy(10, 15);
-                printf("   ###########              #  #");
-                gotoxy(10, 16);
-                printf("            ##              #  #");
-                gotoxy(10, 17);
-                printf("            ##                 #");
-                gotoxy(10, 18);
-                printf("            ##                 ");
-                Sleep(2000);
-                system("cls");
-                check = delivery();
-                if (check == 1)
-                    *money = *money + 10;
-                else {
-                    *money = *money - 10;
-                    mini_game_fail_penalty();   // 보스의 속도 증가 여부에따라 ...(IM)POSSIBLE 반환 Header 참고
-                }
-                break;
-            case 5:
-                gotoxy(10, 7);
-                printf("  ########    #########     ######  #  #######   #");
-                gotoxy(10, 8);
-                printf("  #      #      #   #          #     #  ######   #");
-                gotoxy(10, 9);
-                printf("  #      #      #   #          #     #       #   #");
-                gotoxy(10, 10);
-                printf("  ########    #########       ### ####       #   #");
-                gotoxy(10, 11);
-                printf("                             #####   #  ######   #");
-                gotoxy(10, 12);
-                printf("########################    ### ###  #  #        #");
-                gotoxy(10, 13);
-                printf("     ##           #        ##     #  #  #        #");
-                gotoxy(10, 14);
-                printf("  ########        #            ######   #        #");
-                gotoxy(10, 15);
-                printf("         #    #########       ###  ###  ######## #");
-                gotoxy(10, 16);
-                printf("  ########    ##     ##       #      #           #");
-                gotoxy(10, 17);
-                printf("  #           ##     ##       ##    ##           #");
-                gotoxy(10, 18);
-                printf("  #########   #########        #######           #");
-                Sleep(2000);
-                system("cls");
-                check = article(level);
-                if (check == 1)
-                    *money = *money + 10;
-                else {   //*//
-                    *money = *money - 10;   //*//
-                    mini_game_fail_penalty();   // 보스의 속도 증가 여부에따라 ...(IM)POSSIBLE 반환 Header 참고
-                }   //*//
-                break;
+            else {
+                *money = *money - 10;
+                mini_game_fail_penalty();   // 보스의 속도 증가 여부에따라 ...(IM)POSSIBLE 반환 Header 참고
+            }
+            break;
+        case 4:
+            gotoxy(10, 7);
+            printf("#######    #  #   ##    ##  #  #");
+            gotoxy(10, 8);
+            printf("##         #  #   ##    ##  #  #");
+            gotoxy(10, 9);
+            printf("##         #  #   ##    ##  #  #");
+            gotoxy(10, 10);
+            printf("######     ####   ########  #  #");
+            gotoxy(10, 11);
+            printf("##         #  #   ##    ##  ####");
+            gotoxy(10, 12);
+            printf("##         #  #   ##    ##  #  #");
+            gotoxy(10, 13);
+            printf("########   #  #   ##    ##  #  #");
+            gotoxy(10, 14);
+            printf("                  ########  #  #");
+            gotoxy(10, 15);
+            printf("   ###########              #  #");
+            gotoxy(10, 16);
+            printf("            ##              #  #");
+            gotoxy(10, 17);
+            printf("            ##                 #");
+            gotoxy(10, 18);
+            printf("            ##                 ");
+            Sleep(2000);
+            system("cls");
+            check = delivery();
+            if (check == 1)
+                *money = *money + 10;
+            else {
+                *money = *money - 10;
+                mini_game_fail_penalty();   // 보스의 속도 증가 여부에따라 ...(IM)POSSIBLE 반환 Header 참고
+            }
+            break;
+        case 5:
+            gotoxy(10, 7);
+            printf("  ########    #########     ######  #  #######   #");
+            gotoxy(10, 8);
+            printf("  #      #      #   #          #     #  ######   #");
+            gotoxy(10, 9);
+            printf("  #      #      #   #          #     #       #   #");
+            gotoxy(10, 10);
+            printf("  ########    #########       ### ####       #   #");
+            gotoxy(10, 11);
+            printf("                             #####   #  ######   #");
+            gotoxy(10, 12);
+            printf("########################    ### ###  #  #        #");
+            gotoxy(10, 13);
+            printf("     ##           #        ##     #  #  #        #");
+            gotoxy(10, 14);
+            printf("  ########        #            ######   #        #");
+            gotoxy(10, 15);
+            printf("         #    #########       ###  ###  ######## #");
+            gotoxy(10, 16);
+            printf("  ########    ##     ##       #      #           #");
+            gotoxy(10, 17);
+            printf("  #           ##     ##       ##    ##           #");
+            gotoxy(10, 18);
+            printf("  #########   #########        #######           #");
+            Sleep(2000);
+            system("cls");
+            check = article(level);
+            if (check == 1)
+                *money = *money + 10;
+            else {   //*//
+                *money = *money - 10;   //*//
+                mini_game_fail_penalty();   // 보스의 속도 증가 여부에따라 ...(IM)POSSIBLE 반환 Header 참고
+            }   //*//
+            break;
         }
         system("cls");
         map[*y][*x] = CLEARSPACE;
@@ -277,138 +276,138 @@ int article(int level)
         gotoxy(66, 2);
         switch (item)
         {
-            case 0:
-                printf("Drink");
-                gotoxy(64, 4);
-                printf("        ");
-                gotoxy(65, 4);
-                printf(" ##### ");
-                gotoxy(64, 5);
-                printf("        ");
-                gotoxy(65, 5);
-                printf(" ##### ");
-                gotoxy(64, 6);
-                printf("        ");
-                gotoxy(65, 6);
-                printf(" ##### ");
-                gotoxy(64, 7);
-                printf("        ");
-                gotoxy(65, 7);
-                printf(" ##### ");
-                break;
-            case 1:
-                printf("Ramen");
-                gotoxy(64, 4);
-                printf("        ");
-                gotoxy(65, 4);
-                printf("######");
-                gotoxy(64, 5);
-                printf("        ");
-                gotoxy(65, 5);
-                printf(" #### ");
-                gotoxy(64, 6);
-                printf("        ");
-                gotoxy(65, 6);
-                printf(" #### ");
-                gotoxy(64, 7);
-                printf("        ");
-                gotoxy(65, 7);
-                printf(" #### ");
-                break;
-            case 2:
-                printf("Snack");
-                gotoxy(64, 4);
-                printf("####    ");
-                gotoxy(64, 5);
-                printf("########");
-                gotoxy(64, 6);
-                printf("########");
-                gotoxy(64, 7);
-                printf("   #####");
-                break;
+        case 0:
+            printf("Drink");
+            gotoxy(64, 4);
+            printf("        ");
+            gotoxy(65, 4);
+            printf(" ##### ");
+            gotoxy(64, 5);
+            printf("        ");
+            gotoxy(65, 5);
+            printf(" ##### ");
+            gotoxy(64, 6);
+            printf("        ");
+            gotoxy(65, 6);
+            printf(" ##### ");
+            gotoxy(64, 7);
+            printf("        ");
+            gotoxy(65, 7);
+            printf(" ##### ");
+            break;
+        case 1:
+            printf("Ramen");
+            gotoxy(64, 4);
+            printf("        ");
+            gotoxy(65, 4);
+            printf("######");
+            gotoxy(64, 5);
+            printf("        ");
+            gotoxy(65, 5);
+            printf(" #### ");
+            gotoxy(64, 6);
+            printf("        ");
+            gotoxy(65, 6);
+            printf(" #### ");
+            gotoxy(64, 7);
+            printf("        ");
+            gotoxy(65, 7);
+            printf(" #### ");
+            break;
+        case 2:
+            printf("Snack");
+            gotoxy(64, 4);
+            printf("####    ");
+            gotoxy(64, 5);
+            printf("########");
+            gotoxy(64, 6);
+            printf("########");
+            gotoxy(64, 7);
+            printf("   #####");
+            break;
         }
         //키보드 a, s, d키 눌렀을 때
         do {
             ch = _getch();
             switch (ch) {
-                case 'a':
-                    if (item == 0)
-                    {
-                        score++;
-                        gotoxy(a1 + a_c * 6, a2);
-                        printf(" ##### ");
-                        gotoxy(a1 + a_c * 6, a2 + 1);
-                        printf(" ##### ");
-                        gotoxy(a1 + a_c * 6, a2 + 2);
-                        printf(" ##### ");
-                        gotoxy(a1 + a_c * 6, a2 + 3);
-                        printf(" ##### ");
-                        gotoxy(a1 + a_c * 6 + 1, a2 + 4);
-                        printf("Drink");
-                        gotoxy(62 + i, 9);
-                        textcolor(BLUE); //파란색 text
-                        printf("O ");
-                        a_c++;
-                    }
-                    else
-                    {
-                        gotoxy(62 + i, 9);
-                        textcolor(RED); //빨간색 text
-                        printf("X ");
-                    }
-                    break;
-                case 's':
-                    if (item == 1)
-                    {
-                        score++;
-                        gotoxy(b1 + b_c * 6, b2);
-                        printf("######");
-                        gotoxy(b1 + b_c * 6, b2 + 1);
-                        printf(" #### ");
-                        gotoxy(b1 + b_c * 6, b2 + 2);
-                        printf(" #### ");
-                        gotoxy(b1 + b_c * 6, b2 + 3);
-                        printf(" #### ");
-                        gotoxy(b1 + b_c * 6 + 1, b2 + 4);
-                        printf("Ramen");
-                        gotoxy(62 + i, 9);
-                        textcolor(BLUE); //파란색 text
-                        printf("O ");
-                        b_c++;
-                    }
-                    else
-                    {
-                        gotoxy(62 + i, 9);
-                        textcolor(RED); //빨간색 text
-                        printf("X ");
-                    }
-                    break;
-                case 'd':
-                    if (item == 2)
-                    {
-                        score++;
-                        gotoxy(c1 + c_c * 6, c2);
-                        printf("####    ");
-                        gotoxy(c1 + c_c * 6, c2 + 1);
-                        printf("########");
-                        gotoxy(c1 + c_c * 6, c2 + 2);
-                        printf("########");
-                        gotoxy(c1 + c_c * 6, c2 + 3);
-                        printf("   #####");
-                        gotoxy(c1 + c_c * 6 + 1, c2 + 4);
-                        printf("Snack");
-                        gotoxy(62 + i, 9);
-                        textcolor(BLUE); //파란색 text
-                        printf("O ");
-                        c_c++;
-                    }
-                    else
-                    {
-                        gotoxy(62 + i, 9);
-                        textcolor(RED); //빨간색 text
-                        printf("X ");
-                    }
-                    break;
+            case 'a':
+                if (item == 0)
+                {
+                    score++;
+                    gotoxy(a1 + a_c * 6, a2);
+                    printf(" ##### ");
+                    gotoxy(a1 + a_c * 6, a2 + 1);
+                    printf(" ##### ");
+                    gotoxy(a1 + a_c * 6, a2 + 2);
+                    printf(" ##### ");
+                    gotoxy(a1 + a_c * 6, a2 + 3);
+                    printf(" ##### ");
+                    gotoxy(a1 + a_c * 6 + 1, a2 + 4);
+                    printf("Drink");
+                    gotoxy(62 + i, 9);
+                    textcolor(BLUE); //파란색 text
+                    printf("O ");
+                    a_c++;
+                }
+                else
+                {
+                    gotoxy(62 + i, 9);
+                    textcolor(RED); //빨간색 text
+                    printf("X ");
+                }
+                break;
+            case 's':
+                if (item == 1)
+                {
+                    score++;
+                    gotoxy(b1 + b_c * 6, b2);
+                    printf("######");
+                    gotoxy(b1 + b_c * 6, b2 + 1);
+                    printf(" #### ");
+                    gotoxy(b1 + b_c * 6, b2 + 2);
+                    printf(" #### ");
+                    gotoxy(b1 + b_c * 6, b2 + 3);
+                    printf(" #### ");
+                    gotoxy(b1 + b_c * 6 + 1, b2 + 4);
+                    printf("Ramen");
+                    gotoxy(62 + i, 9);
+                    textcolor(BLUE); //파란색 text
+                    printf("O ");
+                    b_c++;
+                }
+                else
+                {
+                    gotoxy(62 + i, 9);
+                    textcolor(RED); //빨간색 text
+                    printf("X ");
+                }
+                break;
+            case 'd':
+                if (item == 2)
+                {
+                    score++;
+                    gotoxy(c1 + c_c * 6, c2);
+                    printf("####    ");
+                    gotoxy(c1 + c_c * 6, c2 + 1);
+                    printf("########");
+                    gotoxy(c1 + c_c * 6, c2 + 2);
+                    printf("########");
+                    gotoxy(c1 + c_c * 6, c2 + 3);
+                    printf("   #####");
+                    gotoxy(c1 + c_c * 6 + 1, c2 + 4);
+                    printf("Snack");
+                    gotoxy(62 + i, 9);
+                    textcolor(BLUE); //파란색 text
+                    printf("O ");
+                    c_c++;
+                }
+                else
+                {
+                    gotoxy(62 + i, 9);
+                    textcolor(RED); //빨간색 text
+                    printf("X ");
+                }
+                break;
             }
         } while (ch != 'a' && ch != 's' && ch != 'd');
 
@@ -465,7 +464,7 @@ int article(int level)
         Sleep(1000);
         return 1;
     }
-        //목표 실패
+    //목표 실패
     else
     {
         system("cls");
@@ -543,24 +542,24 @@ void moveKey(int(*map)[MAP_SIZE_W], int* x, int* y)
             printf(" \b");
             switch (ch)
             {
-                case UP:
-                    if (*y > 1 && map[*y - 1][*x] != -1)
-                        (*y)--;
-                    break;
-                case DOWN:
-                    if (*y < MAP_SIZE_H - 2 && map[*y + 1][*x] != -1)
-                        (*y)++;
-                    break;
-                case LEFT:
-                    if (*x > 1 && map[*y][*x - 1] != -1)
-                        (*x)--;
-                    break;
-                case RIGHT:
-                    if (*x < MAP_SIZE_W - 2 && map[*y][*x + 1] != -1)
-                        (*x)++;
-                    break;
-                default:
-                    break;
+            case UP:
+                if (*y > 1 && map[*y - 1][*x] != -1)
+                    (*y)--;
+                break;
+            case DOWN:
+                if (*y < MAP_SIZE_H - 2 && map[*y + 1][*x] != -1)
+                    (*y)++;
+                break;
+            case LEFT:
+                if (*x > 1 && map[*y][*x - 1] != -1)
+                    (*x)--;
+                break;
+            case RIGHT:
+                if (*x < MAP_SIZE_W - 2 && map[*y][*x + 1] != -1)
+                    (*x)++;
+                break;
+            default:
+                break;
             }
         }
     }
@@ -855,7 +854,7 @@ int customer(int level)
         Sleep(1000);
         return 1;
     }
-        //목표 실패
+    //목표 실패
     else
     {
         system("cls");
@@ -891,7 +890,6 @@ int customer(int level)
 int mini_game_fail_penalty() {   //*//
     if (boss_speed_level < MAX_BOSS_SPEED_LEVEL) {   //*//
         boss_speed_level++;   //*//
-        boss_frame = *(boss_frame_array + boss_speed_level);   //*//
         return BOSS_SPEED_UP_POSSIBLE;   //*//
     }   //*//
     return BOSS_SPEED_UP_IMPOSSIBLE;   //*//

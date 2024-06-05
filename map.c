@@ -1,14 +1,10 @@
 #include "Game.h"
 
-int frame_cnt = 0;  // which frame are we in, In 60frames   // could
 int boss_speed_array[] = { 20, 15, 12, 10, 6, 5, 3 };	//*//
 int boss_speed_level = 0;	//*//
-int boss_frame = 20;	//*//
 
 int boss_y = 20;
 int boss_x = 20;
-
-int time_taken = 0;
 
 void move_boss(int(*map)[MAP_SIZE_W], int* player_y, int* player_x) {
 	// based on player
@@ -19,40 +15,22 @@ void move_boss(int(*map)[MAP_SIZE_W], int* player_y, int* player_x) {
 	int abs_diff_x = abs(diff_x);
 
 	// 차이가 크게 나는 쪽을 먼저 움직일꺼야
-	if (map[boss_y + 1][boss_x] == -2 && map[boss_y][boss_x + 1] == -2 && map[boss_y - 1][boss_x] == -2 && map[boss_y][boss_x - 1] == -2)
-	{
-		if (abs_diff_y > abs_diff_x) {
-			if (diff_y > 0) {
-				boss_y++;
-			}
-			else {
-				boss_y--;
-			}
+
+	if (abs_diff_y > abs_diff_x) {
+		if (diff_y > 0) {
+			boss_y++;
 		}
 		else {
-			if (diff_x > 0) {
-				boss_x++;
-			}
-			else {
-				boss_x--;
-			}
+			boss_y--;
 		}
 	}
-	if (map[boss_y + 1][boss_x] == -2)
-	{
-		boss_y++;
-	}
-	if (map[boss_y][boss_x + 1] == -2)
-	{
-		boss_x++;
-	}
-	if (map[boss_y - 1][boss_x] == -2)
-	{
-		boss_y--;
-	}
-	if (map[boss_y][boss_x - 1] == -2)
-	{
-		boss_x--;
+	else {
+		if (diff_x > 0) {
+			boss_x++;
+		}
+		else {
+			boss_x--;
+		}
 	}
 }
 void draw_boss(int(*map)[MAP_SIZE_W], int* player_y, int* player_x) {
@@ -78,38 +56,11 @@ void gotoxy(int x, int y)
 //맵 안에서 움직이기
 int move_key(int(*map)[MAP_SIZE_W], int* x, int* y, int level, int* money)
 {
-	Sleep(1000 / FRAME);  // 화면은 1초마다 60번 업데이트 된다.
-
-	frame_cnt++;
-	if (frame_cnt == 61) {   // TODO:not sure if it iterates 60 time and resetted
-		frame_cnt = 1;
-		time_taken++;
-	}
-	// how boss moves
-	if (frame_cnt % boss_frame == 0) {
-		gotoxy(boss_x, boss_y);
-		draw_boss(map, y, x);
-	}
-
-	if (*x == boss_x && *y == boss_y) {	//*//
-		gotoxy(80, 80);	//*//
-		//printf("hit");	//*//
-		// where deffect happen
-		if (boss_x == 1 && boss_y == 1) {	//*//
-			*x = 60;	//*//
-			*y = 60;	//*//
-		}	//*//
-		else {	//*//
-			*x = 1;	//*//
-			*y = 1;	//*//
-		}	//*//
-	}	//*//
-
 	int ch, f, stop;
 
 	gotoxy(*x, *y);
 	textcolor(YELLOW);
-	printf("◆\b");
+	printf("P\b");
 	textcolor(WHITE);
 	if (_kbhit())
 	{
@@ -350,11 +301,11 @@ void draw_map(int(*map)[MAP_SIZE_W])
 			else if (temp == BLOCK)
 			{
 				textcolor(DARKRED);
-				printf("■");
+				printf("W");
 				textcolor(WHITE);
 			}
 			else //-1과 -2 제외한 숫자 깃발
-				printf("▶");
+				printf("F");
 		}
 		printf("\n");
 	}
@@ -428,6 +379,7 @@ int game_start(int(*map)[MAP_SIZE_W], int start, int* x, int* y)
 
 	if (start == 0)
 	{
+		int frame_cnt = 0;/////////////////
 		level = menu();
 
 		if (level == 3)
@@ -437,10 +389,37 @@ int game_start(int(*map)[MAP_SIZE_W], int start, int* x, int* y)
 		system("cls");
 		level_map(map, level);
 		draw_map(map);
-
+		int time_taken = 0;  ///////////////////////////////////////
 
 		while (1) {
 			item = move_key(map, x, y, level, &money);
+
+			Sleep(1000 / FRAME);  // 화면은 1초마다 60번 업데이트 된다.
+
+			frame_cnt++;
+			if (frame_cnt == 61) {   // TODO:not sure if it iterates 60 time and resetted
+				frame_cnt = 1;
+				time_taken++;
+			}
+			// how boss moves
+			if (frame_cnt % boss_speed_array[boss_speed_level] == 0) {/////////////////////
+				gotoxy(boss_x, boss_y);
+				draw_boss(map, y, x);
+			}
+
+			if (*x == boss_x && *y == boss_y) {	//*//
+				gotoxy(80, 80);	//*//
+				//printf("hit");	//*//
+				// where deffect happen
+				if (boss_x == 1 && boss_y == 1) {	//*//
+					*x = 60;	//*//
+					*y = 60;	//*//
+				}	//*//
+				else {	//*//
+					*x = 1;	//*//
+					*y = 1;	//*//
+				}	//*//
+			}	//*//
 
 			//타이머
 			gotoxy(61, 1);

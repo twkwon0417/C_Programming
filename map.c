@@ -3,8 +3,8 @@
 int boss_speed_array[] = { 20, 15, 12, 10, 6, 5, 3 };   //*//
 int boss_speed_level = 0;   //*//
 
-int boss_y = 20;
-int boss_x = 20;
+int boss_y = 26;
+int boss_x = 58;
 
 void move_boss(int(*map)[MAP_SIZE_W], int* player_y, int* player_x) {
     // based on player
@@ -53,13 +53,36 @@ int check_caught(int* y, int* x) {   // not yet added to where it supposed to be
         //printf("hit");   //*//
         // where deffect happen
         if (boss_x == 1 && boss_y == 1) {   //*//
-            *x = 60;   //*//
-            *y = 60;   //*//
-        }   //*//
+            *x = 58;   //*//
+            *y = 26;   //*//
+        }  
         else {   //*//
             *x = 1;   //*//
             *y = 1;   //*//
         }   //*//
+        system("cls");
+        gotoxy(25, 8);
+        printf("     .-""""""-.");
+        gotoxy(25, 9);
+        printf("   .'  \\\\  //  '.");
+        gotoxy(25, 10);
+        printf("  /   O      O   \\");
+        gotoxy(25, 11);
+        printf(" :                :");
+        gotoxy(25, 12);
+        printf(" |                |  ");
+        gotoxy(25, 13);
+        printf(" :       __       :");
+        gotoxy(25, 14);
+        printf("  \  .-\"\`  `\"-. / ");
+        gotoxy(25, 15);
+        printf("   '.          .'");
+        gotoxy(25, 16);
+        printf("     '-......-'");
+
+
+        Sleep(1500);
+        return -99;////////////////////
     }   //*//
 }
 
@@ -659,7 +682,11 @@ int game_start(int(*map)[MAP_SIZE_W], int start, int* x, int* y, char playName[]
                 gotoxy(boss_x, boss_y);
                 draw_boss(map, y, x);
             }
-            check_caught(y, x);
+            if (check_caught(y, x) == -99) {
+                gotoxy(0, 0);
+                draw_map(map);
+            }
+
 
             //타이머
             gotoxy(61, 1);

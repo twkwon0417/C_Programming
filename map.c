@@ -3,8 +3,8 @@
 int boss_speed_array[] = { 20, 15, 12, 10, 6, 5, 3 };   //*//
 int boss_speed_level = 0;   //*//
 
-int boss_y = 26;
-int boss_x = 58;
+int boss_y = 20;
+int boss_x = 20;
 
 void move_boss(int(*map)[MAP_SIZE_W], int* player_y, int* player_x) {
     // based on player
@@ -32,7 +32,6 @@ void move_boss(int(*map)[MAP_SIZE_W], int* player_y, int* player_x) {
         }
     }
 }
-
 void draw_boss(int(*map)[MAP_SIZE_W], int* player_y, int* player_x) {
     if (map[boss_y][boss_x] != -2) {
         gotoxy(0, 0);
@@ -54,36 +53,13 @@ int check_caught(int* y, int* x) {   // not yet added to where it supposed to be
         //printf("hit");   //*//
         // where deffect happen
         if (boss_x == 1 && boss_y == 1) {   //*//
-            *x = 58;   //*//
-            *y = 26;   //*//
-        }  
+            *x = 60;   //*//
+            *y = 60;   //*//
+        }   //*//
         else {   //*//
             *x = 1;   //*//
             *y = 1;   //*//
         }   //*//
-        system("cls");
-        gotoxy(25, 8);
-        printf("     .-""""""-.");
-        gotoxy(25, 9);
-        printf("   .'  \\\\  //  '.");
-        gotoxy(25, 10);
-        printf("  /   O      O   \\");
-        gotoxy(25, 11);
-        printf(" :                :");
-        gotoxy(25, 12);
-        printf(" |                |  ");
-        gotoxy(25, 13);
-        printf(" :       __       :");
-        gotoxy(25, 14);
-        printf("  \  .-\"\`  `\"-. / ");
-        gotoxy(25, 15);
-        printf("   '.          .'");
-        gotoxy(25, 16);
-        printf("     '-......-'");
-
-
-        Sleep(1500);
-        return -99;////////////////////
     }   //*//
 }
 
@@ -208,7 +184,7 @@ int rule(void)
 {
     int contract[MAP_SIZE_H][MAP_SIZE_W];
     generate_map(contract);
-    draw_map(contract);
+    drawMap(contract);
 
     gotoxy(1, 0);
     printf("계약서(게임 설명)");
@@ -648,15 +624,12 @@ int move_key(int(*map)[MAP_SIZE_W], int* x, int* y, int level, int* money, char 
 
 }
 
-
-
 int game_start(int(*map)[MAP_SIZE_W], int start, int* x, int* y, char playName[])
 {
     int item, level, ch;
     int money = 100; //초기 월급
     int frame_cnt = 0;
     int time_taken = 0;
-    boss_speed_level = 0;
 
     if (start == 0)
     {
@@ -683,12 +656,9 @@ int game_start(int(*map)[MAP_SIZE_W], int start, int* x, int* y, char playName[]
             if (frame_cnt % boss_speed_array[boss_speed_level] == 0) {
                 gotoxy(boss_x, boss_y);
                 draw_boss(map, y, x);
+                boss_speed_level = 0;
             }
-            if (check_caught(y, x) == -99) {
-                gotoxy(0, 0);
-                draw_map(map);
-            }
-
+            check_caught(y, x);
 
             //타이머
             gotoxy(61, 1);

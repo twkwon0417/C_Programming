@@ -10,7 +10,6 @@ void init(int visible) // 커서 보이기 설정
     SetConsoleCursorInfo(consoleHandle, &ConsoleCursor);
 }
 
-
 int main(void)
 {
     int start, s_c;
@@ -40,7 +39,8 @@ int main(void)
         }
     } while (s_c);
     system("cls");
-    printf("\n\n\n");
+    printf("게임 종료");
+    printf("\n\n\n\n\n\n");
     return 0;
 }
 
@@ -69,7 +69,7 @@ void slow_print(const char* str, int delay)   //글자 출력하는 속도 제�
 void slow_print_money(const char* str, int delay)   //글자 출력하는 속도 제어하는 함수
 {
     while (*str)
-    {
+    {  
         putchar(*str++);  //문자열을 하나씩 출력함
         Sleep(delay);
     }

@@ -32,6 +32,7 @@ void move_boss(int(*map)[MAP_SIZE_W], int* player_y, int* player_x) {
         }
     }
 }
+
 void draw_boss(int(*map)[MAP_SIZE_W], int* player_y, int* player_x) {
     if (map[boss_y][boss_x] != -2) {
         gotoxy(0, 0);
@@ -655,6 +656,7 @@ int game_start(int(*map)[MAP_SIZE_W], int start, int* x, int* y, char playName[]
     int money = 100; //초기 월급
     int frame_cnt = 0;
     int time_taken = 0;
+    boss_speed_level = 0;
 
     if (start == 0)
     {

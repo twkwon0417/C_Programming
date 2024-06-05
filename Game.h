@@ -92,4 +92,3 @@ int move_key(int(*map)[MAP_SIZE_W], int* x, int* y, int level, int* money, char 
 
 void move_boss(int(*map)[MAP_SIZE_W], int* player_y, int* player_x);
 int game_start(int(*map)[MAP_SIZE_W], int start, int* x, int* y, char playName[]);
-

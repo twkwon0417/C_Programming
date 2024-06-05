@@ -1,7 +1,6 @@
 #include "Game.h"
 
-extern int boss_frame;	//*//
-int boss_frame_array[] = { 20, 15, 12, 10, 6, 5, 3 };	//*//
+extern int boss_speed_array[];	/////////////////////////////////////////////////////
 extern int boss_speed_level;	//*//
 
 void textcolor(int colorNum) {
@@ -615,7 +614,6 @@ void moveKey(int(*map)[MAP_SIZE_W], int* x, int* y)
 int mini_game_fail_penalty() {	//*//
 	if (boss_speed_level < MAX_BOSS_SPEED_LEVEL) {	//*//
 		boss_speed_level++;	//*//
-		boss_frame = *(boss_frame_array + boss_speed_level);	//*//
 		return BOSS_SPEED_UP_POSSIBLE;	//*//
 	}	//*//
 	return BOSS_SPEED_UP_IMPOSSIBLE;	//*//
